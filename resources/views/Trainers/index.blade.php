@@ -9,7 +9,7 @@
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>Tables <small>Some examples to get you started</small></h3>
+                <h3>Welcome <small>Trainers Page Info List</small></h3>
               </div>
 
               <div class="title_right">
@@ -32,7 +32,9 @@
               <div class="col-md-12 col-sm-12  ">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Table design <small>Custom design</small></h2>
+                    <!-- <h2>Table<small>Trainers</small></h2> -->
+                    <!-- <button type="button" class="btn btn-round btn-primary btn-sm">Add</button> -->
+                    <button type="button" class="btn btn-primary btn-sm" onclick="AddTrainerFormModal()">Add trainer</button>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -48,10 +50,9 @@
                     </ul>
                     <div class="clearfix"></div>
                   </div>
-
                   <div class="x_content">
 
-                    <p>Add class <code>bulk_action</code> to table for bulk actions options on row select</p>
+                    <!-- <p>Add class <code>bulk_action</code> to table for bulk actions options on row select</p> -->
 
                     <div class="table-responsive">
                       <table class="table table-striped jambo_table bulk_action">
@@ -221,5 +222,13 @@
           </div>
         </div>
         <!-- /page content -->
-
+        @include('Trainers/trainer')
     @include('includes/footer')
+
+    <script>
+  // Define the function in the global scope
+  function AddTrainerFormModal() {
+    $("#addTrainerModal").modal('show');
+    console.log('it works');
+  }
+</script>
