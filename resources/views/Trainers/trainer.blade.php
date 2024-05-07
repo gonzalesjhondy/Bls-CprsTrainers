@@ -11,19 +11,65 @@
         <div class="modal-body" id="addTrainerModalBody">
           <form class="form-horizontal form-label-left">
             <div class="row">
-              <div class="col-md-6">
+            <div class="col-md-6">
                 <!-- First Column -->
                 <div class="form-group">
-                  <label class="control-label">First name</label>
-                  <input type="text" class="form-control" name="fname">
+                  <label class="control-label">Email</label>
+                  <input type="text" class="form-control" name="email">
                 </div>
+
                 <div class="form-group">
-                  <label class="control-label">Last name</label>
-                  <input type="text" class="form-control" name="lname">
+                  <label class="control-label">Province</label>
+                  <select class="form-control">
+                      <option selected >Select option</option>
+                      <option value="province">province</option>
+                      <option value="others">others</option>
+                    </select>
                 </div>
               </div>
+
               <div class="col-md-6">
-                <!-- Second Column -->
+                <div class="form-group">
+                  <label class="control-label">LGU</label>
+                  <select class="form-control">
+                      <option selected >Select option</option>
+                      <option value="LGU">LGU</option>
+                      <option value="others">others</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Barangay</label>
+                    <select class="form-control">
+                        <option selected >Select option</option>
+                        <option value="LGU">baragay</option>
+                        <option value="others">others</option>
+                      </select>
+                  </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Area of Assignment</label>
+                  <select class="form-control">
+                      <option selected >Select option</option>
+                      <option value="LGU">LGU</option>
+                      <option value="DOH CVCHD">DOH CVCHD</option>
+                      <option value="Hospital">Hospital</option>
+                      <option value="National Government Agency">National Government Agency</option>
+                      <option value="others">others</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">First name</label>
+                    <input type="text" class="form-control" name="fname">
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label">Last name</label>
+                    <input type="text" class="form-control" name="lname">
+                  </div>
+                </div>
+
+              <div class="col-md-6">
                 <div class="form-group">
                   <label class="control-label">Middle name</label>
                   <input type="text" class="form-control" name="mname">
@@ -42,6 +88,7 @@
                     </select>
                 </div>
               </div>
+
               <div class="col-md-6">
                   <!-- Second Column -->
                   <div class="form-group">
@@ -54,7 +101,7 @@
                   </div>
                   <div class="form-group">
                     <label class="control-label">Profession</label>
-                      <select class="form-control">
+                      <select class="form-control" id="professionSelect">
                         <option selected >Select option</option>
                         <option value="Physician">Physician</option>
                         <option value="Dentist">Dentist</option>
@@ -64,6 +111,10 @@
                         <option value="LDRRMO">LDRRMO</option>
                         <option value="others">others</option>
                       </select>
+                  </div>
+                  <div class="form-group" id="otherProfession" style="display: none;">
+                      <label class="control-label">Other Profession</label>
+                      <input type="text" class="form-control" id="profession" name="othersprofession">
                   </div>
               </div>
               <div class="col-md-6">
@@ -100,3 +151,18 @@
     padding: 10px 10px !important; /* Adjust the padding as per your requirement */
   }
 </style>
+
+<script>
+  var profSelect = document.getElementById("professionSelect");
+  var otherProfessionInput = document.getElementById("otherProfession");
+
+  profSelect.addEventListener("change", function() {
+    console.log("Selected value:", profSelect.value);
+    if(profSelect.value === "others"){
+      otherProfessionInput.style.display = "block";
+    }else{
+      otherProfessionInput.style.display = "none";
+    }
+  });
+
+</script>

@@ -229,6 +229,7 @@
   // Define the function in the global scope
   function AddTrainerFormModal() {
     $("#addTrainerModal").modal('show');
-    console.log('it works');
+   
   }
+  
 </script>
