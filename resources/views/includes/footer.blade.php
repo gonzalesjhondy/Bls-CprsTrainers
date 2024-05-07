@@ -10,41 +10,41 @@
     </div>
 
     <!-- jQuery -->
-    <script src="{{ asset('vendor/jquery/dist/jquery.min.js') }} "></script>
+    <script src="{{ asset('Script/jquery/dist/jquery.min.js') }} "></script>
     <!-- Bootstrap -->
     <script src="{{ asset('bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
     <!-- FastClick -->
-    <script src="{{ asset('vendor/fastclick/lib/fastclick.js') }}"></script>
+    <script src="{{ asset('Script/fastclick/lib/fastclick.js') }}"></script>
     <!-- NProgress -->
-    <script src="{{ asset('vendor/nprogress/nprogress.js') }}"></script>
+    <script src="{{ asset('Script/nprogress/nprogress.js') }}"></script>
     <!-- Chart.js -->
-    <script src="{{ asset('vendor/Chart.js/dist/Chart.min.js') }}"></script>
+    <script src="{{ asset('Script/Chart.js/dist/Chart.min.js') }}"></script>
     <!-- gauge.js -->
-    <script src="{{ asset('vendor/gauge.js/dist/gauge.min.js') }}"></script>
+    <script src="{{ asset('Script/gauge.js/dist/gauge.min.js') }}"></script>
     <!-- bootstrap-progressbar -->
     <script src="{{ asset('bootstrap/bootstrap-progressbar/bootstrap-progressbar.min.js') }}"></script>
     <!-- iCheck -->
-    <script src="{{ asset('vendor/vendors/iCheck/icheck.min.js') }}"></script>
+    <script src="{{ asset('Script/iCheck/icheck.min.js') }}"></script>
     <!-- Skycons -->
-    <script src="{{ asset('vendor/vendors/skycons/skycons.js') }}"></script>
+    <script src="{{ asset('Script/skycons/skycons.js') }}"></script>
     <!-- Flot -->
-    <script src="{{ asset('vendor/vendors/Flot/jquery.flot.js') }}"></script>
-    <script src="{{ asset('vendor/vendors/Flot/jquery.flot.pie.js') }}"></script>
-    <script src="{{ asset('vendor/vendors/Flot/jquery.flot.time.js') }}"></script>
-    <script src="{{ asset('vendor/vendors/Flot/jquery.flot.stack.js') }}"></script>
-    <script src="{{ asset('vendor/vendors/Flot/jquery.flot.resize.js') }}"></script>
+    <script src="{{ asset('Script/Flot/jquery.flot.js') }}"></script>
+    <script src="{{ asset('Script/Flot/jquery.flot.pie.js') }}"></script>
+    <script src="{{ asset('Script/Flot/jquery.flot.time.js') }}"></script>
+    <script src="{{ asset('Script/Flot/jquery.flot.stack.js') }}"></script>
+    <script src="{{ asset('Script/Flot/jquery.flot.resize.js') }}"></script>
     <!-- Flot plugins -->
-    <script src="{{ asset('vendor/vendors/flot.orderbars/js/jquery.flot.orderBars.js') }}"></script>
-    <script src="{{ asset('vendor/vendors/flot-spline/js/jquery.flot.spline.min.js') }}"></script>
-    <script src="{{ asset('vendor/vendors/flot.curvedlines/curvedLines.js') }}"></script>
+    <script src="{{ asset('Script/flot.orderbars/js/jquery.flot.orderBars.js') }}"></script>
+    <script src="{{ asset('Script/flot-spline/js/jquery.flot.spline.min.js') }}"></script>
+    <script src="{{ asset('Script/flot.curvedlines/curvedLines.js') }}"></script>
     <!-- DateJS -->
-    <script src="{{ asset('vendor/vendors/DateJS/build/date.js') }}"></script>
+    <script src="{{ asset('Script/DateJS/build/date.js') }}"></script>
     <!-- JQVMap -->
-    <script src="{{ asset('vendor/vendors/jqvmap/dist/jquery.vmap.js') }}"></script>
-    <script src="{{ asset('vendor/vendors/jqvmap/dist/maps/jquery.vmap.world.js') }}"></script>
-    <script src="{{asset('vendor/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js') }}"></script>
+    <script src="{{ asset('Script/jqvmap/dist/jquery.vmap.js') }}"></script>
+    <script src="{{ asset('Script/jqvmap/dist/maps/jquery.vmap.world.js') }}"></script>
+    <script src="{{asset('Script/jqvmap/examples/js/jquery.vmap.sampledata.js') }}"></script>
     <!-- bootstrap-daterangepicker -->
-    <script src="{{ asset('vendor/vendors/moment/min/moment.min.js') }}"></script>
+    <script src="{{ asset('Script/moment/min/moment.min.js') }}"></script>
     <script src="{{ asset('bootstrap/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
 
     <!-- Custom Theme Scripts -->
