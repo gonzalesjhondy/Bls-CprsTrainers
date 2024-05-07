@@ -127,6 +127,4 @@
         </div>
         <!-- /page content -->
 
-
-@include('add')
 @include('includes/footer')

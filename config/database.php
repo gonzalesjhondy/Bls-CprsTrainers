@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Str;
 
+$host="";
+$username ="";
+$password="";
+
 return [
 
     /*
