@@ -19,10 +19,14 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="control-label">Province</label>
+                  <label class="control-label">Municity</label>
                   <select class="form-control">
-                      <option selected >Select option</option>
-                      <option value="province">province</option>
+                      <option selected >Select Municipal</option>
+                      @foreach($muncities as $muncity)
+                      <option value="$muncity->id">
+                      {{ $muncity->description }}
+                      </option>
+                      @endforeach
                       <option value="others">others</option>
                     </select>
                 </div>
@@ -31,23 +35,14 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label class="control-label">LGU</label>
-                  <select class="form-control">
-                      <option selected >Select option</option>
-                      <option value="LGU">LGU</option>
-                      <option value="others">others</option>
-                    </select>
+                  <select class="form-control" id="provinceSelect">
+                    <option value="">Select LGU</option>
+                    @foreach($provinces as $province)
+                      <option value="{{$province->id}}">{{ $province->description }}</option>
+                    @endforeach
+                    <option value="others">others</option>
+                  </select>
                 </div>
-                <div class="form-group">
-                    <label class="control-label">Barangay</label>
-                    <select class="form-control">
-                        <option selected >Select option</option>
-                        <option value="LGU">baragay</option>
-                        <option value="others">others</option>
-                      </select>
-                  </div>
-              </div>
-
-              <div class="col-md-6">
                 <div class="form-group">
                   <label class="control-label">Area of Assignment</label>
                   <select class="form-control">
@@ -59,6 +54,9 @@
                       <option value="others">others</option>
                     </select>
                 </div>
+              </div>
+
+              <div class="col-md-6">
                 <div class="form-group">
                     <label class="control-label">First name</label>
                     <input type="text" class="form-control" name="fname">
@@ -168,4 +166,51 @@
     }
   });
 
+//   document.getElementById('provinceSelect').addEventListener('change', function() {
+//     var provinceId = this.value;
+//   console.log('provinceId', provinceId);
+//     if (provinceId) {
+//         $.ajax({
+//             url: "{{ route('trainer.index') }}",
+//             type: "GET",
+//             headers: {
+//                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
+//             },
+//             data: {
+//                 id: provinceId
+//             },
+//             success: function(data) {
+//                 // Handle the response data as needed
+//                 console.log('data', data.id);
+//             },
+//             error: function(xhr, status, error) {
+//                 console.error('Error:', error);
+//             }
+//         });
+//     }
+// });
+document.getElementById('provinceSelect').addEventListener('change', function(event) {
+        event.stopPropagation(); // Prevent the event from bubbling up to the modal
+        event.preventDefault(); // Prevent the default action of the event (form submission)
+
+        var selectedProvinceId = this.value;
+        if(selectedProvinceId !== '') {
+            fetch('{{ route("trainer.index") }}?id=' + selectedProvinceId)
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    } else {
+                        throw new Error('Network response was not ok.');
+                    }
+                })
+                .then(html => {
+                    document.body.innerHTML = html; // Replace the current HTML with the response
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        } else {
+            // Handle the case where no province is selected
+        }
+    });
 </script>

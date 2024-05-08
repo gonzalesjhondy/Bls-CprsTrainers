@@ -101,7 +101,7 @@
                             <td class="">Created_By</td> 
                             </td>
                           </tr>
-                          </tbody>
+                        </tbody>
                       </table>
                     </div>
 							   
