@@ -19,3 +19,6 @@ Route::get('/', function () {
 });
 
 Route::get('trainer/index', [TrainerController::class, 'index'])->name('trainer.index');
+Route::post('trainer/province', [TrainerController::class, 'index'])->name('trainer.province');
+
+Route::post('trainer/muncity', [TrainerController::class, 'muncity'])->name('trainer.muncity');

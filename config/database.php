@@ -2,9 +2,9 @@
 
 use Illuminate\Support\Str;
 
-$host="";
-$username ="";
-$password="";
+$host="192.168.110.31";
+$username ="rtayong_31";
+$password="rtayong_31";
 
 return [
 
@@ -95,6 +95,16 @@ return [
             'prefix_indexes' => true,
         ],
 
+        'maif' => [
+            'driver'    => 'mysql',
+			'host'      => $host,
+			'database'  => 'maif',
+			'username'  => $username,
+			'password'  => $password,
+			'charset'   => 'utf8',
+			'collation' => 'utf8_bin',
+			'prefix'    => '',
+        ],
     ],
 
     /*
