@@ -19,3 +19,5 @@ Route::get('/', function () {
 });
 
 Route::get('trainer/index', [TrainerController::class, 'index'])->name('trainer.index');
+Route::get('trainers/store', [TrainerController::class, 'store'])->name('trainer.store');
+

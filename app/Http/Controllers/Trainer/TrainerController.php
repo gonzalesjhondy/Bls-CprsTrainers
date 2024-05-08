@@ -10,6 +10,10 @@ class TrainerController extends Controller
     //
     public function index(){
 
-        return view('Trainers.index');
+        return view('trainers.index');
+    }
+
+    public function store(Request $request){
+        dd($request);
     }
 }

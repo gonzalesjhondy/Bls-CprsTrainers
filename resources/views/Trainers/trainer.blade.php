@@ -9,7 +9,7 @@
             </button>
         </div>
         <div class="modal-body" id="addTrainerModalBody">
-          <form class="form-horizontal form-label-left">
+          <form action="" method="" class="form-horizontal form-label-left">
             <div class="row">
             <div class="col-md-6">
                 <!-- First Column -->
@@ -133,6 +133,9 @@
                   <input type="text" class="form-control" name="number">
                 </div>
               </div>
+
+  
+
 
             </div>
             <div class="modal-footer">

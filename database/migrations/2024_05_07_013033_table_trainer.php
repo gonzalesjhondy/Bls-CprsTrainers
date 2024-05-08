@@ -20,7 +20,7 @@ class TableTrainer extends Migration
             $table->string('lname');
             $table->string('suffix')->nullable();
             $table->string('email')->unique();
-            $table->string('aassignment');
+            $table->string('assignment');
             $table->string('LGU');
             $table->string('age_bracket');
             $table->enum('gender', ['male', 'female']);
