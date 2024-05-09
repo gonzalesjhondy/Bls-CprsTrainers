@@ -55,54 +55,57 @@
                     <!-- <p>Add class <code>bulk_action</code> to table for bulk actions options on row select</p> -->
 
                     <div class="table-responsive">
-                      <table class="table table-striped jambo_table bulk_action">
-                        <thead>
-                          <tr class="headings">
-                            <th>
-                              <input type="checkbox" id="check-all" class="flat">
-                            </th>
-                            <th class="column-title">FullName </th>
-                            <th class="column-title">Middlename </th>
-                            <th class="column-title">Lastname</th>
-                            <th class="column-title">Suffix</th>
-                            <th class="column-title">Email</th>
-                            <th class="column-title">Assignment</th>
-                            <th class="column-title no-link last"><span class="nobr">LGU</span>
-                            </th>
-                            <th class="column-title">Age_bracket</th>
-                            <th class="column-title">Gender</th>
-                            <th class="column-title">Profession</th>
-                            <th class="column-title">Contact_number</th>
-                            <th class="column-title">Created_by</th>
-                            
-                            
-                            <th class="bulk-actions" colspan="7">
-                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
-                            </th>
-                          </tr>
-                        </thead>
+                    <table class="table table-striped jambo_table bulk_action">
+                                <thead>
+                                    <tr class="headings">
+                                        <th class="column-title">FullName </th>
+                                        <th class="column-title">Middlename </th>
+                                        <th class="column-title">Lastname</th>
+                                        <th class="column-title">Suffix</th>
+                                        <th class="column-title">Email</th>
+                                        <th class="column-title">Assignment</th>
+                                        <th class="column-title no-link last"><span class="nobr">LGU</span>
+                                        </th>
+                                        <th class="column-title">Age_bracket</th>
+                                        <th class="column-title">Gender</th>
+                                        <th class="column-title">Profession</th>
+                                        <th class="column-title">Contact_number</th>
+                                        <th class="column-title">Created_by</th>
+                                       <th class="column-title" colspan="1">Action X</th>
+                                       
+                                       <th class="bulk-actions" colspan="0">
+                                            <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                                            </th>
+                                         </tr>
+                                        </thead>
 
-                        <tbody>
-                          <tr class="even pointer">
-                            <td class="a-center ">
-                              <input type="checkbox" class="flat" name="table_records">
-                            </td>
-                            <td class=" ">Fullname</td>
-                            <td class=" ">Middlename</td>
-                            <td class=" ">Lastname</td>
-                            <td class=" ">Suffix</td>
-                            <td class=" ">Email</td>
-                            <td class="">Assignment</td>
-                            <td class="">LGU</td>
-                            <td class="">Age Bracket</td>
-                            <td class="">Gender</td>
-                            <td class="">Profession</td>
-                            <td class="">Contact_Number</td>
-                            <td class="">Created_By</td> 
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                                         <tr>
+                                          <tbody>
+                                         <tr class="even pointer">
+                                         <td class="">Fullname</td>
+                                         <td class="">Middlename</td>
+                                         <td class="">Lastname</td>
+                                         <td class="">Suffix</td>
+                                         <td class="">Email</td>
+                                         <td class="">Assignment</td>
+                                         <td class="">LGU</td>
+                                         <td class="">Age_Bracket</td>
+                                         <td class="">Gender</td>
+                                         <td class="">Profession</td>
+                                         <td class="">Contact_Number</td>
+                                         <td class="">Created_By</td>
+
+                                         <td colspan="2">
+                                         <a href="View" class="btn btn-primary btn-sm">View</a>
+                                         <a href="Edit" class="btn btn-primary btn-sm">Edit</a>
+                                         <a href="Update" class="btn btn-primary btn-sm">Update</a>
+                                       
+                                        </td>
+
+                                        </tr>
+                                        </tbody>
+
+                                         </table>
                     </div>
 							   
                     </div>
