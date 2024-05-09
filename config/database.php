@@ -2,10 +2,12 @@
 
 use Illuminate\Support\Str;
 
-$host="192.168.110.31";
-$username ="rtayong_31";
-$password="rtayong_31";
-
+// $host="192.168.110.31"; // uncomment for live
+// $username ="rtayong_31";
+// $password="rtayong_31";
+$host="localhost";
+$username ="root";
+$password="";
 return [
 
     /*
@@ -94,11 +96,33 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
         ],
-
+     
         'maif' => [
             'driver'    => 'mysql',
 			'host'      => $host,
-			'database'  => 'maif',
+			'database'  => 'doh_referral', // if online changes this into maif
+			'username'  => $username,
+			'password'  => $password,
+			'charset'   => 'utf8',
+			'collation' => 'utf8_bin',
+			'prefix'    => '',
+        ],
+
+        'dohdtr' => [
+            'driver'    => 'mysql',
+			'host'      => $host,
+			'database'  => 'dohdtr',
+			'username'  => $username,
+			'password'  => $password,
+			'charset'   => 'utf8',
+			'collation' => 'utf8_bin',
+			'prefix'    => '',
+        ],
+
+        'dts' => [
+            'driver'    => 'mysql',
+			'host'      => $host,
+			'database'  => 'dts',
 			'username'  => $username,
 			'password'  => $password,
 			'charset'   => 'utf8',

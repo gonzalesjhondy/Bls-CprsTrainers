@@ -7,51 +7,67 @@ use Illuminate\Http\Request;
 use App\Models\Muncity;
 use App\Models\Province;
 use Illuminate\Support\Facades\DB;
+use App\Models\Trainer;
 
 class TrainerController extends Controller
 {
     //
     public function index(Request $request){
 
-        // // Retrieve data from the 'muncity' table in the 'maifex' database
-        // $muncities = DB::connection('maif')->table('muncity')->get();
-        
-        // // Retrieve data from the 'province' table in the 'maifex' database
-        // $provinces = DB::connection('maif')->table('province')->get();
-
-        // Output the retrieved data (for testing purposes)
-        //dd($muncities, $provinces);
-
-        // $muncities = Muncity::on('maif')->get();
-
-        // $muncityArray = $muncities->toArray();
-
         $provinces = Province::on('maif')->get();
 
-        $selectedProvinceId = $request->input('id');
+        return view('Trainers.index', compact('provinces'));
+    }
 
+    public function muncity(Request $request) {
+        $selectedProvinceId = $request->input('id');
+        $muncities = [];
         if($selectedProvinceId){
             $muncities = Muncity::on('maif')->where('province_id', $selectedProvinceId)->get();
         }else{
             $muncities = Muncity::on('maif')->where('province_id', $selectedProvinceId)->get();
         }
- 
-        return view('Trainers.index', compact('provinces','selectedProvinceId','muncities'));
+        return response()->json([
+            'muncities' => $muncities,
+        ]);
     }
 
-    // public function muncity(Request $request) {
+    public function AddTrainer(Request $req){
+        
+       $areaAssign = $req->input('AreaAssign');
+       $profession = $req->input('profession'); 
+      
+       $trainer = new Trainer();
 
-    //     $provinces = Province::on('maif')->get();
+       $trainer->fname = $req->input('fname');
+       $trainer->mname = $req->input('mname');
+       $trainer->lname = $req->input('lname');
+       $trainer->suffix = $req->input('suffix');
+       $trainer->email = $req->input('email');
+       $trainer->LGU = $req->input('ProvinceId');
+       $trainer->muncity = $req->input('municipalityId');
+       $trainer->age_bracket = $req->input('ageBracket');
+       $trainer->gender = $req->input('gender');
 
-    //     $selectedProvinceId = $request->input('id');
+       if($areaAssign == "others" && $profession == "others"){
+            $trainer->aassignment = $req->input('others_AreaAssign');
+            $trainer->profession = $req->input('others_profession');
+       }else if($profession == "others" && $areaAssign != "others" ){
+            $trainer->profession = $req->input('others_profession');
+            $trainer->aassignment = $areaAssign;
+       }else if($profession != "others" && $areaAssign == "others" ){
+            $trainer->aassignment = $req->input('others_AreaAssign');
+            $trainer->profession = $profession;
+       }
+       else{
+            $trainer->aassignment = $areaAssign;
+            $trainer->profession = $profession;
+       }
 
-    //     if($selectedProvinceId){
-    //         $muncities = Muncity::on('maif')->where('province_id', $selectedProvinceId)->get();
-    //     }else{
-    //         $muncities = Muncity::on('maif')->where('province_id', $selectedProvinceId)->get();
-    //     }
-    //     return response()->json([
-    //         'id' => $selectedProvinceId
-    //     ]);
-    // }
+       $trainer->contact_number = $req->input('mobilenumber');
+       $trainer->created_by = 'Angelica';
+       $trainer->save();
+
+       return redirect()->back();
+    }
 }
