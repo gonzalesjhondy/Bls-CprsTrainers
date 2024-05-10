@@ -15,14 +15,22 @@ use App\Http\Controllers\Auth\LoginCtrl;
 |
 */
 
-Route::get('/', function () {
+// Route::get('/', function () {
+//     return view('index');
+// });
+Route::middleware('checkRouteList')->group(function () {
+
+Route::get('/Home', function () {
     return view('index');
-});
+})->name('Home');
 
 Route::get('trainer/index', [TrainerController::class, 'index'])->name('trainer.index');
 Route::post('trainer/muncity', [TrainerController::class, 'muncity'])->name('trainer.muncity');
 Route::post('trainer/add', [TrainerController::class, 'AddTrainer'])->name('trainer.add');
 
+});
+
 // Authentication Routes...
 Route::get('/login', [LoginCtrl::class, 'LoginForm'])->name('login');
-Route::post('/login', [LoginCtrl::class, 'Login'])->name('loginUsers');
+Route::post('/login', [LoginCtrl::class, 'Login'])->name('loginUsers'); 
+

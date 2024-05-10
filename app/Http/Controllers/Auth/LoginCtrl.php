@@ -1,12 +1,13 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\FoundationAuth\AuthenticatesUsers;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Providers\RouteServiceProvider; 
 
 class LoginCtrl extends Controller
 {
@@ -25,34 +26,79 @@ class LoginCtrl extends Controller
         // ->join('dtsex.division', 'dtsex.users.division_id', '=', 'dtsex.division.id')
         // ->join('dtsex.section', 'dtsex.users.section_id', '=', 'dtsex.section.id')
         // ->select(
-        //     'dohdtrex.users.*',
-        //     'dtsex.users.*',
-        //     'dtsex.division.*',
-        //     'dtsex.section.*'
+        //     'dohdtrex.users.username',
+        // 'dohdtrex.users.password',
+        // 'dohdtrex.users.fname',
+        // 'dohdtrex.users.userid',
+        // 'dtsex.users.section',
+        // 'dtsex.users.division',
+        // 'dohdtrex.users.*',
         // )
         // ->get();
-
-
-        // $dtsdtr = DB::connection('dohdtr')
-        //           ->table('users')
-        //           ->join('dts.users', 'dohdtr.users.userid', '=', 'dts.users.username')
-        //           ->join('dts.division', 'dts.division.id', '=', 'dts.users.division')
-        //           ->join('dts.section', 'dts.section')
-
+        // $users = DB::connection('dohdtr')
+        //         ->table('users')
+        //         ->join('dts.users', 'dohdtr.users.userid', '=', 'dts.users.username')
+        //         ->join('dts.division', 'dts.division.id', '=', 'dts.users.division')
+        //         ->join('dts.section', 'dts.section.id', '=', 'dts.users.section')
+        //         ->select(
+        //         'dohdtr.users.username',
+        //         'dohdtr.users.password',
+        //         'dohdtr.users.fname',
+        //         'dohdtr.users.userid',
+        //         )
+        //         ->where('dts.users.division','=','3')->where('dts.users.section', '=','80') //53 - Hems
+        //         ->get();
+        // return $users;
         return view('auth.login');
     }
 
     public function Login(Request $request) {
-        // Retrieve credentials from the request
-    // $credentials = $request->only('username', 'password');
-    // // Attempt to authenticate the user against the "dohdtr" connection
-    // if (auth()->guard('dohdtr')->attempt($credentials)) {
-    //     // Authentication successful, redirect to the dashboard
-    //     return redirect()->route('trainer.index');
-    // }
 
-    // // Authentication failed, redirect back with error
-    // return redirect()->back()->with('error', 'Invalid credentials');
+        $passwordInput = trim($request->input('password'));
+        $users = DB::connection('dohdtr')
+                ->table('users')
+                ->join('dts.users', 'dohdtr.users.userid', '=', 'dts.users.username')
+                ->join('dts.division', 'dts.division.id', '=', 'dts.users.division')
+                ->join('dts.section', 'dts.section.id', '=', 'dts.users.section')
+                ->select(
+                    'dohdtr.users.username',
+                    'dohdtr.users.password',
+                    'dohdtr.users.fname',
+                    'dohdtr.users.userid',
+                    'dts.users.section',
+                    'dts.users.division',
+                 'dohdtr.users.*',
+                // 'dts.users.*',
+                // 'dts.division.*',
+                // 'dts.section.*'
+                )
+                ->where('dts.users.division','=','3')->where('dts.users.section', '=','80') //53 - Hems
+                ->get();
+        
+        $foundUser = false;
+        foreach($users as $user){
+       
+            if($request->username === $user->username){
+                $foundUser = true;
+                if(Hash::check($passwordInput, $user->password)){
 
-     }
+                    if($user->division == 3 && $user->section == 80) {
+                        Auth::loginUsingId($user->userid);
+                        return redirect(RouteServiceProvider::HOME);
+                    }else{
+                        return redirect()->route('unauthorized');
+                    }
+                } else {
+                    return redirect()->route('login')->with('error', 'Invalid username or password');
+                }
+            }
+        }
+
+        if (!$foundUser) {
+            return redirect()->route('login')->with('error', 'User not found');
+        }
+        
+        return redirect()->route('login')->with('error', 'Invalid username or password');
+
+    }
 }

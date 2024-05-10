@@ -41,6 +41,13 @@
               <form method="POST" action="{{ route('loginUsers') }}">
                 @csrf
                 <h1>Login Form</h1>
+
+                @if(session('error'))
+                  <div class="alert alert-danger">
+                      {{ session('error') }}
+                  </div>
+                @endif
+                
                 <div>
                   <input type="text" class="form-control" name="username" placeholder="Username" required="" />
                 </div>
