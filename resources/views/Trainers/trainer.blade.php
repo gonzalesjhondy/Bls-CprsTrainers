@@ -136,8 +136,81 @@
                     <input type="number" class="form-control" name="mobilenumber">
                   </div>
                 </div>
-
+                <!-- <p class="bg-warning center" style="color:black">History of BLS Training</p> -->
               </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+              </div>
+          </form>
+        </div>
+
+      </div>
+  </div>
+</div>
+
+<!-- Add Training View Modal -->
+<!-- Modal -->
+<div class="modal fade" role="dialog" id="ViewTrainingModal">
+  <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="addTrainerModalLabel">History of BLS Training Of Trainers</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body" id="addTrainerModalBody">
+          <form action="" method="post" class="form-horizontal form-label-left">        
+                  <!-- First Column -->
+                  <div class="form-group">
+                    <label class="control-label">Date/Month/Year Of Training</label>
+                    <input type="date" class="form-control" name="dateTraining">
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label">Place Of Training</label>
+                    <input type="text" class="form-control" name="placeTraining">
+                  </div>
+
+                  <div class="form-group">
+                      <label class="control-label">Agency Which Conducted The Training</label>
+                        <select class="form-control" id="professionSelect" name="profession">
+                          <option selected >Select option</option>
+                          <option value="HEMB">HEMB</option>
+                          <option value="Dentist">DOH CVCHD</option>
+                          <option value="others">others</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="otherProfession" style="display: none;">
+                        <!-- <label class="control-label">Other Profession</label> -->
+                        <input type="text" class="form-control" id="profession" name="others_profession" placeholder="Other Profession">
+                    </div>
+
+                    <div class="form-group">
+                      <label class="control-label">BLS TOT ID NUMBER</label>
+                      <input type="text" class="form-control" name="placeTraining">
+                    </div>
+
+                  <hr>
+                  <p class="bg-warning" style="color:black">Conduct of Bls Training</p>
+                  
+                  <div class="form-group">
+                    <label class="control-label">Have you conducted at least six(6) BLS-CPR Training Starting 2021?</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="conductTraining" id="yesOption" value="yes">
+                        <label class="form-check-label" for="yesOption">
+                            Yes
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="conductTraining" id="noOption" value="no">
+                        <label class="form-check-label" for="noOption">
+                            No
+                        </label>
+                    </div>
+                </div>
+
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancel</button>
                 <button type="submit" class="btn btn-primary btn-sm">Submit</button>

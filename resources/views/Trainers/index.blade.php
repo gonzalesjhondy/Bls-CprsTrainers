@@ -96,7 +96,7 @@
                                          <td class="">Created_By</td>
 
                                          <td colspan="2">
-                                         <a href="View" class="btn btn-primary btn-sm">View</a>
+                                         <button class="btn btn-primary btn-sm" onclick="ViewTraining()">View</button>
                                          <a href="Edit" class="btn btn-primary btn-sm">Edit</a>
                                          <a href="Update" class="btn btn-primary btn-sm">Update</a>
                                        
@@ -123,6 +123,11 @@
   function AddTrainerFormModal() {
     $("#addTrainerModal").modal('show');
    
+  }
+
+  function ViewTraining(){
+    $('#ViewTrainingModal').modal('show');
+
   }
   
 </script>          
