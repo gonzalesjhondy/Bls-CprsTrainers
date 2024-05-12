@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Trainer\TrainerController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\Auth\LoginCtrl;
 
 /*
@@ -15,22 +16,26 @@ use App\Http\Controllers\Auth\LoginCtrl;
 |
 */
 
-// Route::get('/', function () {
-//     return view('index');
+//  Route::middleware('auth')->group(function () {
 // });
-Route::middleware('checkRouteList')->group(function () {
 
-Route::get('/Home', function () {
-    return view('index');
-})->name('Home');
+// Route::group(['middleware' => 'auth'], function () {
+    Route::get('/', [Controller::class, 'CountTrainer']);
+    // Route::get('/', function () {
+    //     return view('index');
+    // });
 
-Route::get('trainer/index', [TrainerController::class, 'index'])->name('trainer.index');
-Route::post('trainer/muncity', [TrainerController::class, 'muncity'])->name('trainer.muncity');
-Route::post('trainer/add', [TrainerController::class, 'AddTrainer'])->name('trainer.add');
+    Route::get('/Home', function () {
+        return view('index');
+    })->name('Home');
 
-});
+    Route::get('trainer/index', [TrainerController::class, 'index'])->name('trainer.index');
+    Route::post('trainer/muncity', [TrainerController::class, 'muncity'])->name('trainer.muncity');
+    Route::post('trainer/add', [TrainerController::class, 'AddTrainer'])->name('trainer.add');
+
+    // });
 
 // Authentication Routes...
 Route::get('/login', [LoginCtrl::class, 'LoginForm'])->name('login');
 Route::post('/login', [LoginCtrl::class, 'Login'])->name('loginUsers'); 
-
+Route::get('/logout',[LoginCtrl::class, 'Logout'])->name('logout');

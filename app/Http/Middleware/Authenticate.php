@@ -14,20 +14,11 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
-        if (! $request->expectsJson()) {
+        if (!$request->expectsJson()) {
             return route('login');
         }
 
-        $allowedRoutes = [
-            'Home',
-            'trainer.index',
-            'trainer.muncity',
-            'trainer.add'
-        ];
-        if (!in_array($request->route()->getName(), $allowedRoutes)) {
-            // Redirect or handle unauthorized access
-            return redirect()->route('unauthorized');
-        }
+        return $next($request);
     }
 
     

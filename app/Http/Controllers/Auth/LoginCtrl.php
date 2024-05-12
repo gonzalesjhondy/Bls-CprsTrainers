@@ -74,7 +74,7 @@ class LoginCtrl extends Controller
                 )
                 ->where('dts.users.division','=','3')->where('dts.users.section', '=','80') //53 - Hems
                 ->get();
-        
+        // dd($users);
         $foundUser = false;
         foreach($users as $user){
        
@@ -84,6 +84,7 @@ class LoginCtrl extends Controller
 
                     if($user->division == 3 && $user->section == 80) {
                         Auth::loginUsingId($user->userid);
+                        session(['user'=> $user]);
                         return redirect(RouteServiceProvider::HOME);
                     }else{
                         return redirect()->route('unauthorized');
@@ -98,7 +99,11 @@ class LoginCtrl extends Controller
             return redirect()->route('login')->with('error', 'User not found');
         }
         
-        return redirect()->route('login')->with('error', 'Invalid username or password');
+    }
 
+    public function Logout(){
+        Auth::logout();
+        session()->forget('user');
+        return redirect()->route('login'); 
     }
 }

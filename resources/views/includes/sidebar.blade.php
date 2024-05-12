@@ -15,8 +15,12 @@
                 <img src="images/img.jpg" alt="..." class="img-circle profile_img">
               </div>
               <div class="profile_info">
-                <span>Welcome,</span>
-                <h2>John Doe</h2>
+              @if(session()->has('user'))
+                  <?php $user = session('user'); ?>
+                  <span>Welcome,</span>
+                <h2>{{ $user->fname }} {{ $user->lname }}</h2>
+              @endif
+                
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -30,7 +34,7 @@
                 <ul class="nav side-menu">
                   <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="{{ url('/Home') }}">Dashboard</a></li>
+                      <li><a href="{{ url('/') }}">Dashboard</a></li>
                       <!-- <li><a href="index2.html">Dashboard2</a></li>
                       <li><a href="index3.html">Dashboard3</a></li> -->
                     </ul>

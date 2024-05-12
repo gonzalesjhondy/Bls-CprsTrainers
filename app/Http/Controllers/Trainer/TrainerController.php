@@ -13,9 +13,9 @@ class TrainerController extends Controller
 {
     //
     public function index(Request $request){
-
+        $user = session('user');
         $provinces = Province::on('maif')->get();
-
+    
         return view('Trainers.index', compact('provinces'));
     }
 
@@ -33,7 +33,7 @@ class TrainerController extends Controller
     }
 
     public function AddTrainer(Request $req){
-        
+       $user = session('user');
        $areaAssign = $req->input('AreaAssign');
        $profession = $req->input('profession'); 
       
@@ -50,22 +50,22 @@ class TrainerController extends Controller
        $trainer->gender = $req->input('gender');
 
        if($areaAssign == "others" && $profession == "others"){
-            $trainer->aassignment = $req->input('others_AreaAssign');
+            $trainer->assignment = $req->input('others_AreaAssign');
             $trainer->profession = $req->input('others_profession');
        }else if($profession == "others" && $areaAssign != "others" ){
             $trainer->profession = $req->input('others_profession');
-            $trainer->aassignment = $areaAssign;
+            $trainer->assignment = $areaAssign;
        }else if($profession != "others" && $areaAssign == "others" ){
-            $trainer->aassignment = $req->input('others_AreaAssign');
+            $trainer->assignment = $req->input('others_AreaAssign');
             $trainer->profession = $profession;
        }
        else{
-            $trainer->aassignment = $areaAssign;
+            $trainer->assignment = $areaAssign;
             $trainer->profession = $profession;
        }
 
        $trainer->contact_number = $req->input('mobilenumber');
-       $trainer->created_by = 'Angelica';
+       $trainer->created_by = $user->fname;
        $trainer->save();
 
        return redirect()->back();
