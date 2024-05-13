@@ -2,8 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Trainer\TrainerController;
+use App\Http\Controllers\Trainer\TrainingCtrl;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Auth\LoginCtrl;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +35,8 @@ use App\Http\Controllers\Auth\LoginCtrl;
     Route::post('trainer/muncity', [TrainerController::class, 'muncity'])->name('trainer.muncity');
     Route::post('trainer/add', [TrainerController::class, 'AddTrainer'])->name('trainer.add');
 
+    Route::get('view/training/{id}', [TrainingCtrl::class, 'ViewTrainings'])->name('view.training');
+    Route::post('add/historyTraining', [TrainingCtrl::class, 'AddTriningHistory'])->name('add.historyTraining');
     // });
 
 // Authentication Routes...

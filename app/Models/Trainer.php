@@ -25,4 +25,9 @@ class Trainer extends Model
         'contact_number',
         'created_by',
     ];
+
+    public function historyBlsTraining()
+    {
+        return $this->hasOne(HistoryBlsTraining::class, 'trainer_id');
+    }
 }

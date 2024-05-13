@@ -36,7 +36,6 @@ class TrainerController extends Controller
        $user = session('user');
        $areaAssign = $req->input('AreaAssign');
        $profession = $req->input('profession'); 
-      
        $trainer = new Trainer();
 
        $trainer->fname = $req->input('fname');
@@ -68,6 +67,6 @@ class TrainerController extends Controller
        $trainer->created_by = $user->fname;
        $trainer->save();
 
-       return redirect()->back();
+       return redirect()->route('view.training',['id' =>  $trainer->id]);
     }
 }

@@ -1,4 +1,4 @@
-<!-- Modal -->
+<!-- Add Trainer User Modal -->
 <div class="modal fade" role="dialog" id="addTrainerModal">
   <div class="modal-dialog">
       <div class="modal-content">
@@ -160,7 +160,7 @@
             <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <div class="modal-body" id="addTrainerModalBody">
+        <div class="modal-body" id="addTrainerModalBody" style="max-height: 800px; overflow-y: auto;">
           <form action="" method="post" class="form-horizontal form-label-left">        
                   <!-- First Column -->
                   <div class="form-group">
@@ -191,11 +191,10 @@
                       <label class="control-label">BLS TOT ID NUMBER</label>
                       <input type="text" class="form-control" name="placeTraining">
                     </div>
-
-                  <hr>
+                    <hr>
                   <p class="bg-warning" style="color:black">Conduct of Bls Training</p>
                   
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <label class="control-label">Have you conducted at least six(6) BLS-CPR Training Starting 2021?</label>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="conductTraining" id="yesOption" value="yes">
@@ -209,6 +208,86 @@
                             No
                         </label>
                     </div>
+                </div> -->
+                <div class="form-group">
+                    <label class="control-label">Date From</label>
+                    <input type="date" class="form-control" name="dateFrom">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Date To</label>
+                    <input type="date" class="form-control" name="dateTo">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Name and Place of Agency/LGU/Hospital/Organizational/Group Trained</label>
+                    <input type="text" class="form-control" name="name_Trained">
+                  </div>
+                  <!-- 2nd conducted --><hr>
+                  <div class="form-group">
+                    <label class="control-label">Date From</label>
+                    <input type="date" class="form-control" name="dateFrom">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Date To</label>
+                    <input type="date" class="form-control" name="dateTo">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Name and Place of Agency/LGU/Hospital/Organizational/Group Trained</label>
+                    <input type="text" class="form-control" name="name_Trained">
+                </div>
+              <!-- 3rd conducted --><hr>
+              <div class="form-group">
+                    <label class="control-label">Date From</label>
+                    <input type="date" class="form-control" name="dateFrom">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Date To</label>
+                    <input type="date" class="form-control" name="dateTo">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Name and Place of Agency/LGU/Hospital/Organizational/Group Trained</label>
+                    <input type="text" class="form-control" name="name_Trained">
+                </div>
+                
+              <!-- 4th conducted --><hr>
+              <div class="form-group">
+                    <label class="control-label">Date From</label>
+                    <input type="date" class="form-control" name="dateFrom">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Date To</label>
+                    <input type="date" class="form-control" name="dateTo">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Name and Place of Agency/LGU/Hospital/Organizational/Group Trained</label>
+                    <input type="text" class="form-control" name="name_Trained">
+                </div>
+
+                 <!-- 5th conducted --><hr>
+              <div class="form-group">
+                    <label class="control-label">Date From</label>
+                    <input type="date" class="form-control" name="dateFrom">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Date To</label>
+                    <input type="date" class="form-control" name="dateTo">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Name and Place of Agency/LGU/Hospital/Organizational/Group Trained</label>
+                    <input type="text" class="form-control" name="name_Trained">
+                </div>
+
+                 <!-- 6th conducted --><hr>
+              <div class="form-group">
+                    <label class="control-label">Date From</label>
+                    <input type="date" class="form-control" name="dateFrom">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Date To</label>
+                    <input type="date" class="form-control" name="dateTo">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Name and Place of Agency/LGU/Hospital/Organizational/Group Trained</label>
+                    <input type="text" class="form-control" name="name_Trained">
                 </div>
 
               <div class="modal-footer">
@@ -231,7 +310,7 @@
 <script>
   var profSelect = document.getElementById("professionSelect");
   var otherProfessionInput = document.getElementById("otherProfession");
-
+  
   profSelect.addEventListener("change", function() {
     console.log("Selected value:", profSelect.value);
     if(profSelect.value === "others"){

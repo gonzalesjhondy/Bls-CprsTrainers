@@ -46,7 +46,6 @@
     <!-- bootstrap-daterangepicker -->
     <script src="{{ asset('Script/moment/min/moment.min.js') }}"></script>
     <script src="{{ asset('bootstrap/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
-
     <!-- Custom Theme Scripts -->
     <script src="{{ asset('resources/js/custom.min.js') }}"></script>
 	
