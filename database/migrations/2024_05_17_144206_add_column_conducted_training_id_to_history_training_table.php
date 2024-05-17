@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTrainerIdToHistoryTrainingTable extends Migration
+class AddColumnConductedTrainingIdToHistoryTrainingTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,8 +15,9 @@ class AddTrainerIdToHistoryTrainingTable extends Migration
     {
         Schema::table('history_training', function (Blueprint $table) {
             //
-            $table->unsignedBigInteger('trainer_id')->nullable()->after('id');
-            $table->foreign('trainer_id')->references('id')->on('trainer')->onDelete('cascade');
+            $table->unsignedBigInteger('conducted_id')->nullable()->after('id');
+            $table->foreign('conducted_id')->references('id')->on('training_conducted')->onDelete('cascade');
+
         });
     }
 
@@ -29,8 +30,6 @@ class AddTrainerIdToHistoryTrainingTable extends Migration
     {
         Schema::table('history_training', function (Blueprint $table) {
             //
-            $table->dropForeign(['trainer_id']);
-            $table->dropColumn('trainer_id');
         });
     }
 }

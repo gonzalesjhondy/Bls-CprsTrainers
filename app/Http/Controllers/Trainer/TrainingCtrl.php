@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Trainer;
 use App\Models\HistoryBlsTraining;
+use App\Models\TrainingConducted;
 
 class TrainingCtrl extends Controller
 {
@@ -18,7 +19,8 @@ class TrainingCtrl extends Controller
     }
 
     public function AddTriningHistory(Request $req){
-      
+      $user = session('user');
+
       $trainer_id = $req->input('trainer_id');
       $agency_conduct = $req->input('agencyConduct');
 
@@ -38,6 +40,19 @@ class TrainingCtrl extends Controller
       $history_training->trainer_id = $trainer->id;
       $history_training->save();
       
+      if($history_training->conducted_status == "yes"){
+        
+        for ($i = 1; $i <= 6; $i++) {
+          $training_conduct = new TrainingConducted();
+          $training_conduct->trainer_id = $trainer_id;
+          $training_conduct->datefrom = $req->input('dateFrom'.$i);
+          $training_conduct->dateto = $req->input('dateTo'.$i);
+          $training_conduct->nameplaceTrained = $req->input('name_Trained'.$i);
+          $training_conduct->updated_by = $user->username;
+          $training_conduct->save();
+      }
+      }
+
       return redirect()->route('trainer.index');
 
     }
