@@ -18,28 +18,40 @@ use App\Http\Controllers\Auth\LoginCtrl;
 |
 */
 
-//  Route::middleware('auth')->group(function () {
-// });
-
-// Route::group(['middleware' => 'auth'], function () {
-    Route::get('/', [Controller::class, 'CountTrainer']);
-    // Route::get('/', function () {
-    //     return view('index');
-    // });
-
-    Route::get('/Home', function () {
-        return view('index');
-    })->name('Home');
-
     Route::get('trainer/index', [TrainerController::class, 'index'])->name('trainer.index');
-    Route::post('trainer/muncity', [TrainerController::class, 'muncity'])->name('trainer.muncity');
-    Route::post('trainer/add', [TrainerController::class, 'AddTrainer'])->name('trainer.add');
 
-    Route::get('view/training/{id}', [TrainingCtrl::class, 'ViewTrainings'])->name('view.training');
-    Route::post('add/historyTraining', [TrainingCtrl::class, 'AddTriningHistory'])->name('add.historyTraining');
-    // });
 
-// Authentication Routes...
-Route::get('/login', [LoginCtrl::class, 'LoginForm'])->name('login');
-Route::post('/login', [LoginCtrl::class, 'Login'])->name('loginUsers'); 
-Route::get('/logout',[LoginCtrl::class, 'Logout'])->name('logout');
+    Route::get('/check-blsid', [TrainerController::class, 'checkBlsId'])->name('check.blsid');
+
+    Route::get('trainer/aftersubmit', [TrainerController::class, 'aftersubmit'])->name('trainer.aftersubmit');
+    Route::get('trainer/list', [TrainerController::class, 'list'])->name('trainer.list');
+
+    Route::get('trainer/agebracket', [TrainerController::class, 'agebracket'])->name('trainer.agebracket');
+    Route::post('trainer/saveAgeBracket', [TrainerController::class, 'saveAgeBracket'])->name('trainer.saveAgeBracket');
+    Route::post('trainer/updateAgeBracket', [TrainerController::class, 'updateAgeBracket'])->name('trainer.updateAgeBracket');
+    Route::delete('trainer/deleteAgeBracket/{id}', [TrainerController::class, 'deleteAgeBracket'])->name('trainer.deleteAgeBracket');
+
+    Route::get('trainer/profwork', [TrainerController::class, 'profwork'])->name('trainer.profwork');
+    Route::post('trainer/saveProfWork', [TrainerController::class, 'saveProfWork'])->name('trainer.saveProfWork');
+    Route::post('trainer/updateProfWork', [TrainerController::class, 'updateProfWork'])->name('trainer.updateProfWork');
+    Route::delete('trainer/deleteProfWork/{id}', [TrainerController::class, 'deleteProfWork'])->name('trainer.deleteProfWork');
+
+    Route::get('trainer/areaofassignmentmain', [TrainerController::class, 'areaofassignmentmain'])->name('trainer.areaofassignmentmain');
+    Route::post('trainer/areaofassignmentmain', [TrainerController::class, 'saveAreaOfAssignment'])->name('trainer.saveAreaOfAssignment');
+    Route::put('trainer/updateAreaOfAssignment', [TrainerController::class, 'updateAreaOfAssignment'])->name('trainer.updateAreaOfAssignment');
+
+    Route::get('trainer/areaofassignmentsub', [TrainerController::class, 'areaofassignmentsub'])->name('trainer.areaofassignmentsub');
+    Route::post('trainer/areaofassignmentsub', [TrainerController::class, 'saveAreaOfAssignmentSub'])->name('trainer.saveAreaOfAssignmentSub');
+
+    Route::get('trainer/areaofassignmentsub/{id}', [TrainerController::class, 'getSubAssignments'])->name('trainer.getSubAssignments');
+
+    Route::post('trainer/save', [TrainerController::class, 'save'])->name('trainer.save');
+    Route::get('trainer/get-blsinfo', [TrainerController::class, 'getBlsInfo'])->name('trainer.getBlsInfo');
+    Route::post('trainer/update-blsinfo', [TrainerController::class, 'updateBlsInfo'])->name('trainer.updateBlsInfo');
+    
+
+
+    
+
+
+

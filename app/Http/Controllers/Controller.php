@@ -15,13 +15,7 @@ class Controller extends BaseController
 
     public function CountTrainer(){
 
-        $trainers = Trainer::all();
-
-        $totaltrainers = $trainers->count(); 
-        $maleTrainers = $trainers->where('gender','male')->count();
-        $femaleTrainers = $trainers->where('gender', 'female')->count();
-     
-        return view('index', compact('totaltrainers','maleTrainers','femaleTrainers'));
+        
 
     }
 }
