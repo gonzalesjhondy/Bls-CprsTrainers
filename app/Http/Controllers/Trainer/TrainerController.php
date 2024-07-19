@@ -299,6 +299,18 @@ class TrainerController extends Controller
         return view('Trainers.list', compact('blsinfos','ageBrackets','profWorks','areaofAssignments','areaofAssignmentSub'));
     }
 
+
+    public function deleteblsInfo($id) {
+        $blsinfo = blsinfo::find($id);
+    
+        if ($blsinfo) {
+            $blsinfo->delete();
+            return response()->json(['message' => 'Bls Information deleted successfully'], 200);
+        } else {
+            return response()->json(['message' => 'ABls Informationnot found'], 404);
+        }
+    }
+
     public function agebracket (Request $request){
 
         $user = session('user');
@@ -421,6 +433,22 @@ class TrainerController extends Controller
         return response()->json(['message' => 'Area of assignment main saved successfully'], 200);
     }
 
+
+    public function updateAreaOfAssignment(Request $request) {
+
+        $request->validate([
+            'id' => 'required|integer',
+            'AreaAssignmentMain' => 'required|string|max:255',
+        ]);
+    
+        $areaOfAssignment = areaofassignment::find($request->input('id'));
+        $areaOfAssignment->AreaAssignmentMain = $request->input('AreaAssignmentMain');
+        $areaOfAssignment->updated_at = now()->setTimezone('Asia/Manila');
+        $areaOfAssignment->save();
+    
+        return response()->json(['message' => 'Area of Assignment updated successfully'], 200);
+    }
+    
     public function areaofassignmentsub (Request $request){
 
         $user = session('user');

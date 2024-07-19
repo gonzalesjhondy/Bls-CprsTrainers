@@ -13,8 +13,6 @@
     <div class="right_col" role="main">
           <div class="">
             <div class="page-title">
-      
-
               <div class="title_right">
                 <div class="col-md-5 col-sm-5   form-group pull-right top_search">
                   <!-- <div class="input-group">
@@ -26,18 +24,14 @@
                 </div>
               </div>
             </div>
-
             <div class="clearfix"></div>
-
-            <div class="row" style="display: block;">
-              <div class="clearfix"></div>
-
+          <div class="row" style="display: block;">
+        <div class="clearfix"></div>
           <div class="col-md-12 ">
             <div class="col-md-12">
               <div class="x_panel">
                   <div class="x_title">
                     <h2>BLS-CPR Area of Assignment Main</h2>
-         
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -63,7 +57,7 @@
                             </tr>
                            @endforeach
                       </tbody>
-                  </table>
+                   </table>
                     </div>
                   </div>
                 </div>
@@ -72,6 +66,7 @@
             </div>
           </div>
         </div>
+        
         <!-- Create New Modal -->
 <div class="modal fade" id="createNewModal" tabindex="-1" role="dialog" aria-labelledby="createNewModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -109,12 +104,12 @@
         </button>
       </div>
       <div class="modal-body">
-        <form id="editForm" action="{{ route('trainer.updateAgeBracket') }}" method="POST">
+        <form id="editForm" action="{{ route('trainer.updateAreaOfAssignment') }}" method="POST">
           @csrf
-          <input type="hidden" id="" name="id">
+          <input type="hidden" id="editAreaAssignmentId" name="id">
           <div class="form-group">
-            <label for="editAgeBracketDesc">Age Bracket Description</label>
-            <input type="text" class="form-control" id="editAgeBracketDesc" name="AgeBracketDesc" required>
+            <label >Age Bracket Description</label>
+            <input type="text" class="form-control" id="editAreaAssignmentMain" name="AreaAssignmentMain" required>
           </div>
           <div class="pull-right">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -126,15 +121,10 @@
   </div>
 </div>
 
-
-
-        <!-- /page content -->
-
-    @include('includes/footer')
+<!-- /page content -->
+@include('includes/footer')
 
 <script>
-
-
 
 $('#createNewForm').on('submit', function(e){
     e.preventDefault();
@@ -164,24 +154,24 @@ $('#createNewForm').on('submit', function(e){
 $(document).ready(function() {
         // Edit button click event to populate and show the modal
         $('.btn-edit').on('click', function() {
-            var ageBracketId = $(this).data('id');
+            var id = $(this).data('id');
             var ageBracketDesc = $(this).data('description');
-            $('#editAgeBracketId').val(ageBracketId);
-            $('#editAgeBracketDesc').val(ageBracketDesc);
+            $('#editAreaAssignmentId').val(id);
+            $('#editAreaAssignmentMain').val(ageBracketDesc);
             $('#editModal').modal('show');
         });
 
         $('#editForm').on('submit', function(e) {
             e.preventDefault();
-            let ageBracketId = $('#editAgeBracketId').val();
-            let ageBracketDesc = $('#editAgeBracketDesc').val();
+            let areaAssignmentId = $('#editAreaAssignmentId').val();
+            let areaAssignmentMain = $('#editAreaAssignmentMain').val();
 
             $.ajax({
                 type: "POST",
                 url: $(this).attr('action'),
                 data: {
-                    id: ageBracketId,
-                    AgeBracketDesc: ageBracketDesc,
+                    id: areaAssignmentId,
+                    AreaAssignmentMain: areaAssignmentMain,
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {

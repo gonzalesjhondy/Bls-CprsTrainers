@@ -38,7 +38,8 @@ use App\Http\Controllers\Auth\LoginCtrl;
 
     Route::get('trainer/areaofassignmentmain', [TrainerController::class, 'areaofassignmentmain'])->name('trainer.areaofassignmentmain');
     Route::post('trainer/areaofassignmentmain', [TrainerController::class, 'saveAreaOfAssignment'])->name('trainer.saveAreaOfAssignment');
-    Route::put('trainer/updateAreaOfAssignment', [TrainerController::class, 'updateAreaOfAssignment'])->name('trainer.updateAreaOfAssignment');
+    Route::post('trainer/updateAreaOfAssignment', [TrainerController::class, 'updateAreaOfAssignment'])->name('trainer.updateAreaOfAssignment');
+
 
     Route::get('trainer/areaofassignmentsub', [TrainerController::class, 'areaofassignmentsub'])->name('trainer.areaofassignmentsub');
     Route::post('trainer/areaofassignmentsub', [TrainerController::class, 'saveAreaOfAssignmentSub'])->name('trainer.saveAreaOfAssignmentSub');
@@ -48,6 +49,7 @@ use App\Http\Controllers\Auth\LoginCtrl;
     Route::post('trainer/save', [TrainerController::class, 'save'])->name('trainer.save');
     Route::get('trainer/get-blsinfo', [TrainerController::class, 'getBlsInfo'])->name('trainer.getBlsInfo');
     Route::post('trainer/update-blsinfo', [TrainerController::class, 'updateBlsInfo'])->name('trainer.updateBlsInfo');
+    Route::delete('trainer/deleteblsInfo/{id}', [TrainerController::class, 'deleteblsInfo'])->name('trainer.deleteblsInfo');
     
 
 

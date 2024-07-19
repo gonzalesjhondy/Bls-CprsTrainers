@@ -66,7 +66,7 @@
                   </li>
                   <li><a href="{{route('trainer.agebracket')}}" ><i class="fa fa-sort-numeric-asc"></i> Age Bracket  </a>
                   <li><a href="{{route('trainer.profwork')}}" ><i class="fa fa-star"></i> Profession/Work  </a>
-                  <li><a><i class="fa fa-list-ol"></i> BLS-TOT  </a>
+                  <!-- <li><a><i class="fa fa-list-ol"></i> BLS-TOT  </a> -->
                   <li><a><i class="fa fa-sign-out"></i> LOGOUT </a>
                  
                 

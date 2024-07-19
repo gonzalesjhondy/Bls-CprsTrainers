@@ -22,12 +22,10 @@
                 </div>
             </div>
         </div>
-
         <div class="clearfix"></div>
 
         <div class="row" style="display: block;">
             <div class="clearfix"></div>
-
             <div class="col-md-12">
                 <div class="x_panel">
                     <div class="x_title">
@@ -59,22 +57,22 @@
                                         <th class="column-title text-nowrap">CONDUCTED SIX TRAINING</th>
                                         <th class="column-title text-nowrap">Training From (1)</th>
                                         <th class="column-title text-nowrap">Training To (1)</th>
-                                        <th class="column-title text-nowrap">Training 1 (Others)</th>
+                                        <th class="column-title text-nowrap">PLACE OF AGENCY (1)</th>
                                         <th class="column-title text-nowrap">Training From (2)</th>
                                         <th class="column-title text-nowrap">Training To (2)</th>
-                                        <th class="column-title text-nowrap">Training 2 (Others)</th>
+                                        <th class="column-title text-nowrap">PLACE OF AGENCY (2)</th>
                                         <th class="column-title text-nowrap">Training From (3)</th>
                                         <th class="column-title text-nowrap">Training To (3)</th>
-                                        <th class="column-title text-nowrap">Training 3 (Others)</th>
+                                        <th class="column-title text-nowrap">PLACE OF AGENCY (3)</th>
                                         <th class="column-title text-nowrap">Training From (4)</th>
                                         <th class="column-title text-nowrap">Training To (4)</th>
-                                        <th class="column-title text-nowrap">Training 4 (Others)</th>
+                                        <th class="column-title text-nowrap">PLACE OF AGENCY (3)</th>
                                         <th class="column-title text-nowrap">Training From (5)</th>
                                         <th class="column-title text-nowrap">Training To (5)</th>
-                                        <th class="column-title text-nowrap">Training 5 (Others)</th>
+                                        <th class="column-title text-nowrap">PLACE OF AGENCY (5)</th>
                                         <th class="column-title text-nowrap">Training From (6)</th>
                                         <th class="column-title text-nowrap">Training To (6)</th>
-                                        <th class="column-title text-nowrap">Training 6 (Others)</th>
+                                        <th class="column-title text-nowrap">PLACE OF AGENCY (6)</th>
                                         <th class="column-title no-link last"><span class="nobr">Action</span>
                                         </th>
                                         <th class="bulk-actions" colspan="7">
@@ -124,7 +122,7 @@
 
                                         <td>
                                             <button class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
-                                            <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                                            <!-- <button class="btn btn-sm btn-danger btn-delete" data-id="{{ $blsinfo->id }}"><i class="fa fa-trash"></i></button> -->
                                         </td>
                                     </tr>
                                     @endforeach
@@ -145,7 +143,7 @@
       <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
           <div class="modal-header">
-          <h5 class="modal-title" id="editModalLabel">Edit BLS-CPR Trainer Information</h5>
+          <h5 class="modal-title" id="editModalLabel">Update BLS-CPR Trainer Information</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -268,6 +266,7 @@
                               </div>
                             </div>
                         </div>
+                        <input type="text" name="ConductedSixTraining" value="YES" hidden/>     
                       <div class="col-md-12" style="margin-top: 5px;">
                           <div class="col-md-3" style="margin-top: 9px;">
                             <label for=""><b>(1)</b> &nbsp; FROM: </label>
@@ -360,7 +359,7 @@
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-primary" id="updateBlsInfoBtn">Update</button>
         </div>
-        </form>
+      </form>
     </div>
   </div>
 </div>
@@ -374,130 +373,116 @@
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
 
 <script>
-    $(document).ready(function () {
-        // Initialize DataTables without length menu
-        $('#blsTable').DataTable({
-            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]], // Optional: Just to be explicit, but we won't use it
-            "pageLength": 25 // Fixed page length
-        });
+  $(document).ready(function () {
+    $('#blsTable').DataTable({
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        "pageLength": 25
+    });
 
-        // Add search functionality to DataTables
-        $('#searchInput').on('keyup', function () {
-            $('#blsTable').DataTable().search($(this).val()).draw();
-        });
+    $('#searchInput').on('keyup', function () {
+        $('#blsTable').DataTable().search($(this).val()).draw();
+    });
 
-        // Handle edit button click
-        $('.btn-info').on('click', function () {
-            var row = $(this).closest('tr');
-            var blsinfo = {
-                BlsId: row.find('td:eq(0)').text(),
-                Email: row.find('td:eq(1)').text(),
-                Lastname: row.find('td:eq(2)').text(),
-                Firstname: row.find('td:eq(3)').text(),
-                Middlename: row.find('td:eq(4)').text(),
-                // Add other fields as needed
-                AreaOfAssignment: row.find('td:eq(5)').text(),
-                AreaOfAssignmentSub: row.find('td:eq(6)').text(),
-                OtherAssignment: row.find('td:eq(7)').text(),
-                Suffix: row.find('td:eq(8)').text(),
-                AgeBracketDesc: row.find('td:eq(9)').text(),
-                Gender: row.find('td:eq(10)').text(),
-                ProfWorkDesc: row.find('td:eq(11)').text(),
-                ContactNum: row.find('td:eq(12)').text(),
-                TrainingDate: row.find('td:eq(13)').text(),
-                TrainingPlace: row.find('td:eq(14)').text(),
-                AgencyConducted: row.find('td:eq(15)').text(),
-                AgencyConductedOthers: row.find('td:eq(16)').text(),
-                BlsTotId: row.find('td:eq(17)').text(),
-                NotApplicable: row.find('td:eq(18)').text(),
-                TrnFrom1: row.find('td:eq(19)').text(),
-                TrnTo1: row.find('td:eq(20)').text(),
-                TrnFtOthers1: row.find('td:eq(21)').text(),
-                TrnFrom2: row.find('td:eq(22)').text(),
-                TrnTo2: row.find('td:eq(23)').text(),
-                TrnFtOthers2: row.find('td:eq(24)').text(),
-                TrnFrom3: row.find('td:eq(25)').text(),
-                TrnTo3: row.find('td:eq(26)').text(),
-                TrnFtOthers3: row.find('td:eq(27)').text(),
-                TrnFrom4: row.find('td:eq(28)').text(),
-                TrnTo4: row.find('td:eq(29)').text(),
-                TrnFtOthers4: row.find('td:eq(30)').text(),
-                TrnFrom5: row.find('td:eq(31)').text(),
-                TrnTo5: row.find('td:eq(32)').text(),
-                TrnFtOthers5: row.find('td:eq(33)').text(),
-                TrnFrom6: row.find('td:eq(34)').text(),
-                TrnTo6: row.find('td:eq(35)').text(),
-                TrnFtOthers6: row.find('td:eq(36)').text()
-            };
+    $('.btn-info').on('click', function () {
+        var blsId = $(this).closest('tr').find('td:eq(0)').text();
 
-            // Fill the modal with data
-            $('#blsInfoId').val(blsinfo.BlsId);
-            $('#Email').val(blsinfo.Email);
-            $('#Lastname').val(blsinfo.Lastname);
-            $('#Firstname').val(blsinfo.Firstname);
-            $('#Middlename').val(blsinfo.Middlename);
+        $.ajax({
+            url: '{{ route("trainer.getBlsInfo") }}',
+            method: 'GET',
+            data: { BlsId: blsId },
+            success: function(response) {
+                if (response.error) {
+                    alert('Bls info not found');
+                } else {
+                    // Populate modal fields
+                    $('#updateBlsInfoForm input, #updateBlsInfoForm select').each(function() {
+                        var fieldName = $(this).attr('name');
+                        if (fieldName && response[fieldName] !== undefined) {
+                            $(this).val(response[fieldName]);
+                        }
+                    });
 
-            $('#OtherAssignment').val(blsinfo.OtherAssignment);
-            $('#Suffix').val(blsinfo.Suffix);
-            $('#AgeBracketDesc').val(blsinfo.AgeBracketDesc);
-            $('#Gender').val(blsinfo.Gender); 
-            $('#ProfWorkDesc').val(blsinfo.ProfWorkDesc);
-            $('#ContactNum').val(blsinfo.ContactNum);
-            $('#TrainingDate').val(blsinfo.TrainingDate);
-            $('#TrainingPlace').val(blsinfo.TrainingPlace);
-            $('#AgencyConducted').val(blsinfo.AgencyConducted);
-            $('#AgencyConductedOthers').val(blsinfo.AgencyConductedOthers);
-            $('#BlsTotId').val(blsinfo.BlsTotId);
-            $('#NotApplicable').val(blsinfo.NotApplicable);
-            $('#TrnFrom1').val(blsinfo.TrnFrom1);
-            $('#TrnTo1').val(blsinfo.TrnTo1);
-            $('#TrnFtOthers1').val(blsinfo.TrnFtOthers1);
-            $('#TrnFrom2').val(blsinfo.TrnFrom2);
-            $('#TrnTo2').val(blsinfo.TrnTo2);
-            $('#TrnFtOthers2').val(blsinfo.TrnFtOthers2);
-            $('#TrnFrom3').val(blsinfo.TrnFrom3);
-            $('#TrnTo3').val(blsinfo.TrnTo3);
-            $('#TrnFtOthers3').val(blsinfo.TrnFtOthers3);
-            $('#TrnFrom4').val(blsinfo.TrnFrom4);
-            $('#TrnTo4').val(blsinfo.TrnTo4);
-            $('#TrnFtOthers4').val(blsinfo.TrnFtOthers4);
-            $('#TrnFrom5').val(blsinfo.TrnFrom5);
-            $('#TrnTo5').val(blsinfo.TrnTo5);
-            $('#TrnFtOthers5').val(blsinfo.TrnFtOthers5);
-            $('#TrnFrom6').val(blsinfo.TrnFrom6);
-            $('#TrnTo6').val(blsinfo.TrnTo6);
-            $('#TrnFtOthers6').val(blsinfo.TrnFtOthers6);
+                    $('#AreaOfAssignment').val(response.AreaOfAssignment).trigger('change');
+                    $('#AreaOfAssignmentSub').val(response.AreaOfAssignmentSub).trigger('change');
 
-            $('#AreaOfAssignment').val(blsinfo.AreaOfAssignment).trigger('change');
-            $('#AreaOfAssignmentSub').val(blsinfo.AreaOfAssignmentSub).trigger('change');
+                    $('#TrnFrom1').val(response.TrnFrom1);
+                    $('#TrnTo1').val(response.TrnTo1);
+                    $('#TrnFtOthers1').val(response.TrnFtOthers1);
 
-            // Show the modal
-            $('#editModal').modal('show');
-        });
+                    $('#TrnFrom2').val(response.TrnFrom2);
+                    $('#TrnTo2').val(response.TrnTo2);
+                    $('#TrnFtOthers2').val(response.TrnFtOthers2);
 
-        // Handle form submission (AJAX or form submit)
-        $('#updateBlsInfoForm').on('submit', function (e) {
-            e.preventDefault();
+                    $('#TrnFrom3').val(response.TrnFrom3);
+                    $('#TrnTo3').val(response.TrnTo3);
+                    $('#TrnFtOthers3').val(response.TrnFtOthers3);
 
-            // Collect form data
-            var formData = $(this).serialize();
+                    $('#TrnFrom4').val(response.TrnFrom4);
+                    $('#TrnTo4').val(response.TrnTo4);
+                    $('#TrnFtOthers4').val(response.TrnFtOthers4);
 
-            // Perform AJAX request to update data
-            $.ajax({
-                url: '{{ route("trainer.updateBlsInfo") }}',
-                method: 'POST',
-                data: formData,
-                success: function (response) {
-                    // Handle success response
-                    alert('Data updated successfully!');
-                    // Optionally, reload the table or update the row with new data
-                    location.reload();
-                },
-                error: function (response) {
-                    // Handle error response
-                    alert('An error occurred while updating data.');
+                    $('#TrnFrom5').val(response.TrnFrom5);
+                    $('#TrnTo5').val(response.TrnTo5);
+                    $('#TrnFtOthers5').val(response.TrnFtOthers5);
+
+                    $('#TrnFrom6').val(response.TrnFrom6);
+                    $('#TrnTo6').val(response.TrnTo6);
+                    $('#TrnFtOthers6').val(response.TrnFtOthers6);
+
+                    // Show the modal
+                    $('#editModal').modal('show');
                 }
-            });
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching Bls info:', error);
+            }
         });
     });
+
+    $('#updateBlsInfoForm').submit(function(event) {
+        event.preventDefault();
+
+        $.ajax({
+            url: '{{ route("trainer.updateBlsInfo") }}',
+            method: 'POST',
+            data: $(this).serialize(),
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                console.log('Bls info updated successfully:', response.message);
+                alert('Data updated successfully!');
+                $('#editModal').modal('hide');
+                location.reload();
+            },
+            error: function(xhr, status, error) {
+                console.error('Error updating Bls info:', xhr.responseText);
+                alert('Error updating Bls info: ' + xhr.responseText);
+            }
+        });
+    });
+});
+
+
+    $('.btn-delete').on('click', function() {
+            var blsinfoId = $(this).data('id');
+
+            if (confirm('Are you sure you want to delete this bls information?')) {
+                $.ajax({
+                    type: "DELETE",
+                    url: "{{ url('trainer/deleteblsInfo') }}/" + blsinfoId,
+                    data: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        console.log(response.message);
+                        location.reload(); // Reload the page to see changes
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+        });
 </script>
+
