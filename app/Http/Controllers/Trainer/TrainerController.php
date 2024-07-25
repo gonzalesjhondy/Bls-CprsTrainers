@@ -23,7 +23,6 @@ class TrainerController extends Controller
         $areaofAssignments = areaofassignment::all();
         $areaofAssignmentSub = areaofassignmentsub::all();
       
-
         return view('Trainers.index', compact('ageBrackets','profWorks', 'areaofAssignments','areaofAssignmentSub'));
     }
 
@@ -284,6 +283,7 @@ class TrainerController extends Controller
         $blsInfo->save();
         
         return response()->json(['message' => 'Bls info updated successfully'], 200);
+        
     }
     
     
@@ -307,7 +307,7 @@ class TrainerController extends Controller
             $blsinfo->delete();
             return response()->json(['message' => 'Bls Information deleted successfully'], 200);
         } else {
-            return response()->json(['message' => 'ABls Informationnot found'], 404);
+            return response()->json(['message' => 'Bls Informationnot found'], 404);
         }
     }
 
@@ -448,15 +448,27 @@ class TrainerController extends Controller
     
         return response()->json(['message' => 'Area of Assignment updated successfully'], 200);
     }
+
+
+    public function deleteAreaOfAssignment($id) {
+        $areaOfAssignment = areaofassignment::find($id);
     
-    public function areaofassignmentsub (Request $request){
-
-        $user = session('user');
-        $areaofAssignments = areaofassignmentsub::all();
-        $areaofAssignmentMain = areaofassignment::all();
-
-        return view('Trainers.areaofassignmentsub', compact('areaofAssignmentMain','areaofAssignments'));
+        if ($areaOfAssignment) {
+            $areaOfAssignment->delete();
+            return response()->json(['message' => 'Area of Assignment deleted successfully'], 200);
+        } else {
+            return response()->json(['message' => 'Area of Assignment not found'], 404);
+        }
     }
+    
+    public function areaofassignmentsub(Request $request)
+    {
+        $areaofAssignments = areaofassignmentsub::all();
+        $areaofAssignmentMain = areaofassignment::orderBy('id', 'asc')->get();
+    
+        return view('Trainers.areaofassignmentsub', compact('areaofAssignmentMain', 'areaofAssignments'));
+    }
+    
 
     public function saveAreaOfAssignmentSub(Request $request) {
         
@@ -474,5 +486,56 @@ class TrainerController extends Controller
         $areaofAssignmentSub->save();
 
         return response()->json(['message' => 'Area of assignment sub saved successfully'], 200);
+    }
+
+
+    public function updateAreaOfAssignmentSub(Request $request) {
+        $request->validate([
+            'id' => 'required|int|exists:areaofassignmentsubs,id',
+            'AreaAssignmentMain' => 'required|int|exists:areaofassignments,id',
+            'AreaAssignmentSub' => 'required|string|max:255'
+        ]);
+    
+        $areaOfAssignment = areaofassignmentsub::find($request->input('id'));
+        if ($areaOfAssignment) {
+            $areaOfAssignment->AreaOfAssignmentId = $request->input('AreaAssignmentMain');
+            $areaOfAssignment->AreaAssignmentSub = $request->input('AreaAssignmentSub');
+            $areaOfAssignment->updated_at = now()->setTimezone('Asia/Manila');
+            $areaOfAssignment->save();
+            
+            return response()->json(['message' => 'Area of Assignment updated successfully'], 200);
+        } else {
+            return response()->json(['message' => 'Record not found'], 404);
+        }
+    }
+    
+
+    public function getAreaOfAssignment($id) {
+        // Fetch the area of assignment from the database
+        $areaOfAssignment = areaofassignmentsub::find($id);
+    
+        // Check if the data was found
+        if ($areaOfAssignment) {
+            return response()->json([
+                'id' => $areaOfAssignment->id,
+                'AreaOfAssignmentId' => $areaOfAssignment->AreaOfAssignmentId,
+                'AreaAssignmentSub' => $areaOfAssignment->AreaAssignmentSub
+            ]);
+        } else {
+            return response()->json(['message' => 'Data not found'], 404);
+        }
+    }
+
+
+    
+    public function deleteAreaOfAssignmentSub($id) {
+        $areaOfAssignmentSub = areaofassignmentsub::find($id);
+    
+        if ($areaOfAssignmentSub) {
+            $areaOfAssignmentSub->delete();
+            return response()->json(['message' => 'Area of Assignment sub deleted successfully'], 200);
+        } else {
+            return response()->json(['message' => 'Area of Assignment sub not found'], 404);
+        }
     }
 }

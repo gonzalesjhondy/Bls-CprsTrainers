@@ -28,10 +28,30 @@
           <div class="row" style="display: block;">
         <div class="clearfix"></div>
           <div class="col-md-12 ">
+        <div id="successAlert" class="alert alert-success alert-dismissible fade show" role="alert" style="display:none;">
+              Area of Assignment Main added successfully!
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div id="removeAlert" class="alert alert-danger alert-dismissible fade show" role="alert" style="display:none;">
+             Area of Assignment Main remove successfully!
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div id="editAlert" class="alert alert-primary alert-dismissible fade show" role="alert" style="display:none;">
+           Area of Assignment Main updated successfully!
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
             <div class="col-md-12">
               <div class="x_panel">
                   <div class="x_title">
-                    <h2>BLS-CPR Area of Assignment Main</h2>
+                    <h2>BLS-CPR Trainer  (Area of Assignment Main)</h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -52,7 +72,7 @@
                                 <td>{{ $assignment->AreaAssignmentMain }}</td> 
                                 <td>
                                     <button class="btn btn-sm btn-info btn-edit" data-id="{{ $assignment->id }}" data-description="{{ $assignment->AreaAssignmentMain }}"><i class="fa fa-edit"></i></button>
-                                    <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                                    <button class="btn btn-sm btn-danger btn-delete" data-id="{{ $assignment->id }}"><i class="fa fa-trash"></i></button>
                                 </td>
                             </tr>
                            @endforeach
@@ -66,13 +86,13 @@
             </div>
           </div>
         </div>
-        
-        <!-- Create New Modal -->
+
+  <!-- Create New Modal -->
 <div class="modal fade" id="createNewModal" tabindex="-1" role="dialog" aria-labelledby="createNewModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="createNewModalLabel">Create New Area of Assignment</h5>
+        <h5 class="modal-title" id="createNewModalLabel">Create New </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -108,7 +128,7 @@
           @csrf
           <input type="hidden" id="editAreaAssignmentId" name="id">
           <div class="form-group">
-            <label >Age Bracket Description</label>
+            <h6 >Area of Assignment Main</h6>
             <input type="text" class="form-control" id="editAreaAssignmentMain" name="AreaAssignmentMain" required>
           </div>
           <div class="pull-right">
@@ -138,8 +158,15 @@ $('#createNewForm').on('submit', function(e){
             _token: '{{ csrf_token() }}' // Include CSRF token for Laravel security
         },
         success: function(response){
-            console.log(response.message);
-            // Optionally, you can refresh the page or update the table dynamically
+        $('#successAlert').show();
+
+        $('#createNewForm')[0].reset();
+
+        // Automatically hide the alert after 5 seconds
+        setTimeout(function() {
+          $('#successAlert').hide();
+          window.location.reload();
+        }, 1500);
         },
         error: function(xhr, status, error) {
             console.error(xhr.responseText);
@@ -175,10 +202,14 @@ $(document).ready(function() {
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
-                    console.log(response.message);
-                    // Optionally, you can refresh the page or update the table dynamically
-                    location.reload(); // Reload the page to see changes
-                },
+                  $('#editAlert').show();
+
+                  // Hide the alert after 3 seconds
+                  setTimeout(function() {
+                      $('#editAlert').hide();
+                      window.location.reload();
+                  }, 1500);
+                  },
                 error: function(xhr, status, error) {
                     console.error(xhr.responseText);
                 }
@@ -189,6 +220,32 @@ $(document).ready(function() {
         });
     });
 
+
+    $('.btn-delete').on('click', function() {
+        var profWorkId = $(this).data('id');
+
+        if (confirm('Are you sure you want to delete this Area of Assignment?')) {
+            $.ajax({
+                type: "DELETE",
+                url: "{{ url('trainer/deleteAreaOfAssignment') }}/" + profWorkId,
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                  $('#removeAlert').show();
+
+                // Hide the alert after 3 seconds
+                setTimeout(function() {
+                    $('#removeAlert').hide();
+                    window.location.reload();
+                }, 1500);
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        }
+    });
   
 </script>          
                        

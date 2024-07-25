@@ -21,10 +21,34 @@
       <div class="clearfix"></div>
 
       <div class="col-md-12 ">
+        
+      <div id="successAlert" class="alert alert-success alert-dismissible fade show" role="alert" style="display:none;">
+          Age bracket added successfully!
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div id="removeAlert" class="alert alert-danger alert-dismissible fade show" role="alert" style="display:none;">
+          Age bracket remove successfully!
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div id="editAlert" class="alert alert-primary alert-dismissible fade show" role="alert" style="display:none;">
+          Age bracket updated successfully!
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+
+
         <div class="col-md-12">
           <div class="x_panel">
             <div class="x_title">
-              <h2>BLS-CPR Trainer Age Bracket</h2>
+              <h2>BLS-CPR Trainer (Age Bracket)</h2>
               <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -35,7 +59,7 @@
               <table class="table table-striped jambo_table bulk_action">
                 <thead>
                     <tr class="headings">
-                        <th class="column-title">Age Description Bracket</th>
+                        <th class="column-title">Age Bracket</th>
                         <th class="column-title">Actions</th>
                         
                     </tr>
@@ -57,18 +81,23 @@
             </div>
           </div>
         </div>
+
+
       </div>
     </div>
+    
   </div>
+
 </div>
 <!-- /page content -->
+
 
 <!-- Create New Modal -->
 <div class="modal fade" id="createNewModal" tabindex="-1" role="dialog" aria-labelledby="createNewModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="createNewModalLabel">Create New Age Bracket</h5>
+        <h5 class="modal-title" id="createNewModalLabel">Create New </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -76,7 +105,7 @@
       <div class="modal-body">
       <form id="createNewForm" action="{{ route('trainer.saveAgeBracket') }}" method="POST">
           <div class="form-group">
-            <h6 for="ageBracketDescription" >Age Bracket Description</label>
+            <h6 for="ageBracketDescription" >Age Bracket </label>
             <input type="text" class="form-control mt-2 mb-4" id="AgeBracketDesc" name="AgeBracketDesc" required>
           </div>
           <div class="pull-right">
@@ -106,7 +135,7 @@
           @csrf
           <input type="hidden" id="editAgeBracketId" name="id">
           <div class="form-group">
-            <label for="editAgeBracketDesc">Age Bracket Description</label>
+            <label for="editAgeBracketDesc">Age Bracket </label>
             <input type="text" class="form-control" id="editAgeBracketDesc" name="AgeBracketDesc" required>
           </div>
           <div class="pull-right">
@@ -124,30 +153,43 @@
 @include('includes/footer')
 
 <script>
-    $('#createNewForm').on('submit', function(e){
-    e.preventDefault();
-    let ageBracketDescription = $('#AgeBracketDesc').val();
+ $(document).ready(function() {
+    $('#createNewForm').on('submit', function(e) {
+      e.preventDefault();
+      let ageBracketDescription = $('#AgeBracketDesc').val();
 
-    $.ajax({
+      $.ajax({
         type: "POST",
         url: $(this).attr('action'),
         data: {
-            AgeBracketDesc: ageBracketDescription,
-            _token: '{{ csrf_token() }}' // Include CSRF token for Laravel security
+          AgeBracketDesc: ageBracketDescription,
+          _token: '{{ csrf_token() }}' // Include CSRF token for Laravel security
         },
-        success: function(response){
-            console.log(response.message);
-            // Optionally, you can refresh the page or update the table dynamically
+        success: function(response) {
+          console.log(response.message);
+          // Optionally, you can refresh the page or update the table dynamically
+
+          // Hide the modal
+          $('#createNewModal').modal('hide');
+
+          // Show the success alert
+          $('#successAlert').show();
+
+          // Reset the form fields
+          $('#createNewForm')[0].reset();
+
+          // Automatically hide the alert after 5 seconds
+          setTimeout(function() {
+            $('#successAlert').hide();
+            window.location.reload();
+          }, 1500);
         },
         error: function(xhr, status, error) {
-            console.error(xhr.responseText);
+          console.error(xhr.responseText);
         }
+      });
     });
-
-    // Close the modal
-    $('#createNewModal').modal('hide');
-});
-
+  });
   
 $(document).ready(function() {
         // Edit button click event to populate and show the modal
@@ -173,9 +215,13 @@ $(document).ready(function() {
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
-                    console.log(response.message);
-                    // Optionally, you can refresh the page or update the table dynamically
-                    location.reload(); // Reload the page to see changes
+                  $('#editAlert').show();
+
+                  // Hide the alert after 3 seconds
+                  setTimeout(function() {
+                      $('#editAlert').hide();
+                      window.location.reload();
+                  }, 1500);
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr.responseText);
@@ -187,26 +233,36 @@ $(document).ready(function() {
         });
     });
 
-       // Delete button click event
-       $('.btn-delete').on('click', function() {
-        var ageBracketId = $(this).data('id');
+    $('.btn-delete').on('click', function() {
+    var ageBracketId = $(this).data('id');
 
-        if (confirm('Are you sure you want to delete this age bracket?')) {
-            $.ajax({
-                type: "DELETE",
-                url: "{{ url('trainer/deleteAgeBracket') }}/" + ageBracketId,
-                data: {
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    console.log(response.message);
-                    location.reload(); // Reload the page to see changes
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
-        }
-    });
+    if (confirm('Are you sure you want to delete this age bracket?')) {
+        $.ajax({
+            type: "DELETE",
+            url: "{{ url('trainer/deleteAgeBracket') }}/" + ageBracketId,
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                console.log(response.message);
+
+                // Show the alert message
+                $('#removeAlert').show();
+
+                // Hide the alert after 3 seconds
+                setTimeout(function() {
+                    $('#removeAlert').hide();
+                    window.location.reload();
+                }, 1500);
+
+                // Optionally, remove the deleted age bracket from the DOM if you have a list
+                // $('#ageBracketRow-' + ageBracketId).remove();
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
+});
 
 </script>

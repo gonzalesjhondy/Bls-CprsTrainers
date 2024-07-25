@@ -18,8 +18,11 @@ use App\Http\Controllers\Auth\LoginCtrl;
 |
 */
 
-    Route::get('trainer/index', [TrainerController::class, 'index'])->name('trainer.index');
+    Route::get('login', [LoginCtrl::class, 'showLoginForm'])->name('login');
+    Route::post('login', [LoginCtrl::class, 'login']);
 
+
+    Route::get('trainer/index', [TrainerController::class, 'index'])->name('trainer.index');
 
     Route::get('/check-blsid', [TrainerController::class, 'checkBlsId'])->name('check.blsid');
 
@@ -39,12 +42,16 @@ use App\Http\Controllers\Auth\LoginCtrl;
     Route::get('trainer/areaofassignmentmain', [TrainerController::class, 'areaofassignmentmain'])->name('trainer.areaofassignmentmain');
     Route::post('trainer/areaofassignmentmain', [TrainerController::class, 'saveAreaOfAssignment'])->name('trainer.saveAreaOfAssignment');
     Route::post('trainer/updateAreaOfAssignment', [TrainerController::class, 'updateAreaOfAssignment'])->name('trainer.updateAreaOfAssignment');
+    Route::delete('trainer/deleteAreaOfAssignment/{id}', [TrainerController::class, 'deleteAreaOfAssignment'])->name('trainer.deleteAreaOfAssignment');
 
 
     Route::get('trainer/areaofassignmentsub', [TrainerController::class, 'areaofassignmentsub'])->name('trainer.areaofassignmentsub');
     Route::post('trainer/areaofassignmentsub', [TrainerController::class, 'saveAreaOfAssignmentSub'])->name('trainer.saveAreaOfAssignmentSub');
-
     Route::get('trainer/areaofassignmentsub/{id}', [TrainerController::class, 'getSubAssignments'])->name('trainer.getSubAssignments');
+    Route::delete('trainer/deleteAreaOfAssignmentSub/{id}', [TrainerController::class, 'deleteAreaOfAssignmentSub'])->name('trainer.deleteAreaOfAssignmentSub');
+
+    Route::get('trainer/get-area-of-assignment/{id}', [TrainerController::class, 'getAreaOfAssignment'])->name('trainer.getAreaOfAssignment');
+    Route::post('trainer/updateAreaOfAssignmentSub', [TrainerController::class, 'updateAreaOfAssignmentSub'])->name('trainer.updateAreaOfAssignmentSub');
 
     Route::post('trainer/save', [TrainerController::class, 'save'])->name('trainer.save');
     Route::get('trainer/get-blsinfo', [TrainerController::class, 'getBlsInfo'])->name('trainer.getBlsInfo');

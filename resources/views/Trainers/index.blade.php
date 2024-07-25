@@ -424,7 +424,7 @@
                               </div>
                               <div class="col-md-3 col-sm-3 mb-3 form-group">
                                 <label for="areaofAssignment">AREA OF ASSIGNMENT:</label>
-                                <select class="form-control" id="AreaOfAssignment" name="AreaOfAssignment">
+                                <select class="form-control" id="areaofAssignmentMain" name="AreaOfAssignment">
                                   <option value="">Choose option</option>
                                   @foreach($areaofAssignments as $areaofAssignment)
                                   <option value="{{ $areaofAssignment->AreaAssignmentMain }}">{{ $areaofAssignment->AreaAssignmentMain }}</option>
@@ -433,7 +433,7 @@
                               </div>
                               <div class="col-md-3 mb-3 form-group">
                                 <label for="areaAssignmentSub">Sub Assignment:</label>
-                                <select class="form-control" id="AreaOfAssignmentSub" name="AreaOfAssignmentSub">
+                                <select class="form-control" id="areaAssignmentSUB" name="AreaOfAssignmentSub">
                                   <option value="">Choose option</option>
                                   @foreach($areaofAssignmentSub as $assignment)
                                   <option value="{{ $assignment->AreaAssignmentSub }}">{{ $assignment->AreaAssignmentSub }}</option>
@@ -611,7 +611,6 @@
                             <input type="text" class="form-control mt-2" name="TrnFtOthers6" id="TrnFtOthers6" >
                           </div>
                       </div>
-                      
                 </div>                     
             </div>
         </div>
@@ -653,11 +652,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const noSubmitButton = document.getElementById('NoSubmitButton'); // Corrected ID for the "No" submit button
     const lessThan6SubmitButton = document.getElementById('lessThan6SubmitButton'); // Corrected ID for the "No" submit button
 
-
     const trnFrom1Input = document.getElementById('TrnFrom1lessthan');
     const trnTo1Input = document.getElementById('TrnTo1lessthan');
     const trnFTOthers1Input = document.getElementById('TrnFTOthers1lessthan');
-
 
     // Event listener for yes radio button change
     yesRadioButton.addEventListener('change', function() {
@@ -670,7 +667,6 @@ document.addEventListener('DOMContentLoaded', function() {
             noContent.style.display = 'none';
         } 
     });
-
 
     // Event listener for no radio button change
     noRadioButton.addEventListener('change', function() {
@@ -693,12 +689,7 @@ document.addEventListener('DOMContentLoaded', function() {
             yesForm.submit();
         }
     });
-
-    
 });
-
-
-
 
 $(document).ready(function() {
     $('#areaofAssignment').on('change', function() {
@@ -729,6 +720,36 @@ $(document).ready(function() {
     });
 });
 
+
+
+$(document).ready(function() {
+    $('#areaofAssignmentMain').on('change', function() {
+        const assignmentMain = $(this).val();
+        const subAssignmentSelect = $('#areaAssignmentSUB');
+
+        subAssignmentSelect.empty();
+        subAssignmentSelect.append('<option value="">Choose option</option>');
+
+        if (assignmentMain) {
+            $.ajax({
+                url: '{{ route("trainer.getSubAssignments", ":main") }}'.replace(':main', assignmentMain),
+                type: "GET",
+                dataType: "json",
+                success: function(data) {
+                    if (data && data.length > 0) {
+                        $.each(data, function(key, value) {
+                            subAssignmentSelect.append('<option value="' + value.AreaAssignmentSub + '">' + value.AreaAssignmentSub + '</option>');
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching sub assignments: ', status, error);
+                    console.log('Response:', xhr.responseText);
+                }
+            });
+        }
+    });
+});
 
 
 document.addEventListener('DOMContentLoaded', function () {

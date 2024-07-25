@@ -7,17 +7,53 @@
 <!-- Add DataTables CSS -->
 <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 
-<!-- page content -->
+<style>
+    /* Ensure the table header remains sticky */
+    .thead-sticky {
+        position: sticky;
+        top: 0;
+        background-color: #fff;
+        z-index: 10; 
+    }
+
+    /* Make the first two columns sticky */
+    #blsTable th:first-child,
+    #blsTable td:first-child,
+    #blsTable th:nth-child(2),
+    #blsTable td:nth-child(2) {
+        position: sticky;
+        left: 0;
+        z-index: 9; 
+        background-color: white;
+    }
+
+    /* Make the last column sticky */
+    #blsTable th:last-child,
+    #blsTable td:last-child {
+        position: sticky;
+        right: 0;
+        z-index: 9;
+    }
+    
+    /* Ensure the tbody scrolls */
+    .tbody-scroll {
+        overflow-y: auto;
+        max-height: 400px;
+    }
+
+</style>
+
+
 <div class="right_col" role="main">
     <div class="">
         <div class="page-title">
             <div class="title_right">
-                <div class="col-md-5 col-sm-5 form-group pull-right top_search">
+                <div class="col-md-6 col-sm-5 form-group pull-right top_search">
                     <div class="input-group">
-                        <!-- <input type="text" class="form-control" id="searchInput" placeholder="Search...">
+                        <input type="text" class="form-control" id="searchInput" placeholder="Search...">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">Go!</button>
-                        </span> -->
+                            <button class="btn btn-default" type="button">Search!</button>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -119,7 +155,6 @@
                                         <td>{{ $blsinfo->TrnFrom6 }}</td>
                                         <td>{{ $blsinfo->TrnTo6 }}</td>
                                         <td>{{ $blsinfo->TrnFtOthers6 }}</td>
-
                                         <td>
                                             <button class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
                                             <!-- <button class="btn btn-sm btn-danger btn-delete" data-id="{{ $blsinfo->id }}"><i class="fa fa-trash"></i></button> -->
@@ -136,8 +171,6 @@
     </div>
 </div>
 <!-- /page content -->
-
-
 
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-xl" role="document">
@@ -163,7 +196,7 @@
                               </div>
                               <div class="col-md-3 col-sm-3 mb-3 form-group">
                                 <label for="areaofAssignment">AREA OF ASSIGNMENT:</label>
-                                <select class="form-control" id="AreaOfAssignment" name="AreaOfAssignment">
+                                <select class="form-control" id="areaofAssignment" name="AreaOfAssignment">
                                   <option value="">Choose option</option>
                                   @foreach($areaofAssignments as $areaofAssignment)
                                   <option value="{{ $areaofAssignment->AreaAssignmentMain }}">{{ $areaofAssignment->AreaAssignmentMain }}</option>
@@ -172,7 +205,7 @@
                               </div>
                               <div class="col-md-3 mb-3 form-group">
                                 <label for="areaAssignmentSub">Sub Assignment:</label>
-                                <select class="form-control" id="AreaOfAssignmentSub" name="AreaOfAssignmentSub">
+                                <select class="form-control" id="areaAssignmentSub" name="AreaOfAssignmentSub">
                                   <option value="">Choose option</option>
                                   @foreach($areaofAssignmentSub as $assignment)
                                   <option value="{{ $assignment->AreaAssignmentSub }}">{{ $assignment->AreaAssignmentSub }}</option>
@@ -364,8 +397,6 @@
   </div>
 </div>
 
-
-
 @include('includes/footer')
 
 <!-- Add DataTables JS -->
@@ -375,8 +406,9 @@
 <script>
   $(document).ready(function () {
     $('#blsTable').DataTable({
-        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-        "pageLength": 25
+        "lengthMenu": [[15, 25, 50, -1], [15, 25, 50, "All"]],
+        "pageLength": 15,
+        "dom": 'lrtip'  // This 
     });
 
     $('#searchInput').on('keyup', function () {
@@ -484,5 +516,38 @@
                 });
             }
         });
+
+
+    $(document).ready(function() {
+
+
+    $('#areaofAssignment').on('change', function() {
+        const assignmentMain = $(this).val();
+        const subAssignmentSelect = $('#areaAssignmentSub');
+
+        subAssignmentSelect.empty();
+        subAssignmentSelect.append('<option value="">Choose option</option>');
+
+        if (assignmentMain) {
+            $.ajax({
+                url: '{{ route("trainer.getSubAssignments", ":main") }}'.replace(':main', assignmentMain),
+                type: "GET",
+                dataType: "json",
+                success: function(data) {
+                    if (data && data.length > 0) {
+                        $.each(data, function(key, value) {
+                            subAssignmentSelect.append('<option value="' + value.AreaAssignmentSub + '">' + value.AreaAssignmentSub + '</option>');
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching sub assignments: ', status, error);
+                    console.log('Response:', xhr.responseText);
+                }
+            });
+        }
+    });
+});
+
 </script>
 

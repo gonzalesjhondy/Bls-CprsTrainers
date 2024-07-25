@@ -21,6 +21,26 @@
       <div class="clearfix"></div>
 
       <div class="col-md-12 ">
+      <div id="successAlert" class="alert alert-success alert-dismissible fade show" role="alert" style="display:none;">
+          Profession/Work added successfully!
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div id="removeAlert" class="alert alert-danger alert-dismissible fade show" role="alert" style="display:none;">
+        Profession/Work remove successfully!
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div id="editAlert" class="alert alert-primary alert-dismissible fade show" role="alert" style="display:none;">
+        Profession/Work updated successfully!
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
         <div class="col-md-12">
           <div class="x_panel">
             <div class="x_title">
@@ -68,7 +88,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="createNewModalLabel">Create New Profession / Work</h5>
+        <h5 class="modal-title" id="createNewModalLabel">Create New </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -94,7 +114,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="editModalLabel">Edit Age Bracket</h5>
+        <h5 class="modal-title" id="editModalLabel">Edit Profession/Work</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -104,7 +124,7 @@
           @csrf
           <input type="hidden" id="editProfWork" name="id">
           <div class="form-group">
-            <label for="editProfWorkDesc">Age Bracket Description</label>
+            <label for="editProfWorkDesc">Profession / Work</label>
             <input type="text" class="form-control" id="editProfWorkDesc" name="ProfWorkDesc" required>
           </div>
           <div class="pull-right">
@@ -135,7 +155,17 @@
                 _token: '{{ csrf_token() }}' // Include CSRF token for Laravel security
             },
             success: function(response){
-                console.log(response.message);
+              // Show the success alert
+              $('#successAlert').show();
+
+
+              $('#createNewForm')[0].reset();
+
+              // Automatically hide the alert after 5 seconds
+              setTimeout(function() {
+                $('#successAlert').hide();
+                window.location.reload();
+              }, 1500);
                 // Optionally, you can refresh the page or update the table dynamically
             },
             error: function(xhr, status, error) {
@@ -177,8 +207,13 @@
                 },
                 success: function(response) {
                     console.log(response.message);
-                    // Optionally, you can refresh the page or update the table dynamically
-                    location.reload(); // Reload the page to see changes
+                    $('#editAlert').show();
+
+                  // Hide the alert after 3 seconds
+                  setTimeout(function() {
+                      $('#editAlert').hide();
+                      window.location.reload();
+                  }, 1500);
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr.responseText);
@@ -202,8 +237,13 @@
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
-                    console.log(response.message);
-                    location.reload(); // Reload the page to see changes
+                  $('#removeAlert').show();
+
+                // Hide the alert after 3 seconds
+                setTimeout(function() {
+                    $('#removeAlert').hide();
+                    window.location.reload();
+                }, 1500);
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr.responseText);
