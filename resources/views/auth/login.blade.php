@@ -1,69 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <!-- Meta, title, CSS, favicons, etc. -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@include('includes/header')
+<body class="login">
+  <div>
+    <a class="hiddenanchor" id="signup"></a>
+    <a class="hiddenanchor" id="signin"></a>
 
-    <title>BLS-CPRS-TRAINERS </title>
-
-    <!-- Bootstrap -->
-    <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="bootstrap/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <!-- NProgress -->
-    <link href="bootstrap/nprogress/nprogress.css" rel="stylesheet">
-    <!-- Animate.css -->
-    <link href="bootstrap/animate.css/animate.min.css" rel="stylesheet">
-
-    <!-- Custom Theme Style -->
-    <link href="resources/css/custom.min.css" rel="stylesheet">
-  </head>
-  <style>
-    .login_content{
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 60vh;
-    }
-    .login_wrapper {
-        max-width: 400px;
-      }
-  </style>
-
-  <body class="login">
-    <div>
-      <div class="login_wrapper">
-        <div class="animate form login_form">
-            <section class="login_content">
-              <form method="POST" action="{{ route('loginUsers') }}">
-                @csrf
-                <h1>Login Form</h1>
-
-                @if(session('error'))
-                  <div class="alert alert-danger">
-                      {{ session('error') }}
-                  </div>
-                @endif
-                
-                <div>
-                  <input type="text" class="form-control" name="username" placeholder="Username" required="" />
-                </div>
-                <div>
-                  <input type="password" class="form-control" name="password" placeholder="Password" required="" />
-                </div>
-                <div>
-                  <!-- <a class="btn btn-default submit">Log in</a> -->
-                  <button type="submit" class="btn btn-default btn-sm">Submit</button>
-                </div>
-
-                <div class="clearfix"></div>
-              </form>
-            </section>
-        </div>
+    <div class="login_wrapper">
+      <div class="animate form login_form">
+        <section class="login_content">
+        <form action="{{ route('trainer.index') }}" method="POST">
+            @csrf
+            <h1>BLS-CPR Trainer</h1>
+            <div>
+              <input type="text" class="form-control" placeholder="Username" />
+            </div>
+            <div>
+              <input type="password" class="form-control" placeholder="Password"  />
+            </div>
+            <div>
+              <button type="submit" class="btn btn-info submit" style="width: 100%;" href="">Log in</button>
+            </div>
+            <div class="clearfix"></div>
+            <div class="separator">
+              <div class="clearfix"></div>
+              <br />
+              <div>
+                <img src=" {{ asset ('./img/doh_hems_bg.png') }}">
+                <br>
+                <p class="mt-5">2024 All Rights Reserved. Department Of Health CV-CHD</p>
+              </div>
+            </div>
+          </form>
+        </section>
       </div>
     </div>
-  </body>
+  </div>
+</body>
 </html>

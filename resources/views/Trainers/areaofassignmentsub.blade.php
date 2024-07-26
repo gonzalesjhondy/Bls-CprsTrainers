@@ -12,7 +12,7 @@
           <div class="">
             <div class="page-title">
               <div class="title_right">
-                <div class="col-md-6 col-sm-5   form-group pull-right top_search">
+                <div class="col-md-8 col-sm-5 ml-auto form-group pull-right top_search">
                   <div class="input-group">
                     <input type="text" class="form-control"  id="searchInput"  placeholder="Search">
                     <span class="input-group-btn">
@@ -168,17 +168,18 @@
 
   <script>
 
+$(document).ready(function() {
+            var table = $('#blsTable').DataTable({
+                "lengthMenu": [[15, 25, 50, -1], [15, 25, 50, "All"]],
+                "pageLength": 15,
+                "dom": 'lrtip',
+                "order": [[2, 'desc']]  // Ordering by the third column (Created At) in descending order
+            });
 
-// $('#blsTable').DataTable({
-//         "lengthMenu": [[15, 25, 50, -1], [15, 25, 50, "All"]],
-//         "pageLength": 15,
-//         "dom": 'lrtip'  // This 
-//     });
-
-//     $('#searchInput').on('keyup', function () {
-//         $('#blsTable').DataTable().search($(this).val()).draw();
-//     });
-
+            $('#searchInput').on('keyup', function () {
+                table.search($(this).val()).draw();
+            });
+        });
 
     $('#createNewForm').on('submit', function(e){
     e.preventDefault();

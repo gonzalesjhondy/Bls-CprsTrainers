@@ -5,7 +5,7 @@ use App\Http\Controllers\Trainer\TrainerController;
 use App\Http\Controllers\Trainer\TrainingCtrl;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Auth\LoginCtrl;
-
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,8 +18,8 @@ use App\Http\Controllers\Auth\LoginCtrl;
 |
 */
 
-    Route::get('login', [LoginCtrl::class, 'showLoginForm'])->name('login');
-    Route::post('login', [LoginCtrl::class, 'login']);
+    Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('login', [LoginController::class, 'login']);
 
 
     Route::get('trainer/index', [TrainerController::class, 'index'])->name('trainer.index');

@@ -44,7 +44,7 @@
                       </div>
                       <div class="col-md-6 col-sm-6 form-group has-feedback">
                           <label for="areaofAssignment">AREA OF ASSIGNMENT:</label>
-                          <select class="form-control" id="areaofAssignment" name="AreaOfAssignment">
+                          <select class="form-control" id="areaofAssignment" name="AreaOfAssignment" required>
                               <option value="">Choose option</option>
                               @foreach($areaofAssignments as $areaofAssignment)
                               <option value="{{ $areaofAssignment->AreaAssignmentMain }}">{{ $areaofAssignment->AreaAssignmentMain }}</option>
@@ -53,7 +53,7 @@
                       </div>
                       <div class="col-md-6 mt-2 mb-3">
                           <label for="areaAssignmentSub">Sub Assignment:</label>
-                            <select class="form-control" id="areaAssignmentSub" name="AreaOfAssignmentSub">
+                            <select class="form-control" id="areaAssignmentSub" name="AreaOfAssignmentSub" required>
                                 <option value="">Choose option</option>
                                 @foreach($areaofAssignmentSub as $assignment)
                                 <option value="{{ $assignment->id }}">{{ $assignment->AreaAssignmentSub }}</option>
@@ -626,6 +626,8 @@
 @include('includes/footer')
 
 <script>
+
+  
 
 function confirmHideSection(sectionId) {
     if (confirm("Are you sure you want to remove?")) {

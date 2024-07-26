@@ -47,6 +47,9 @@
 <div class="right_col" role="main">
     <div class="">
         <div class="page-title">
+        <div class="title_left">
+                <h3>BLS-CPR Trainer Information</small></h3>
+              </div>
             <div class="title_right">
                 <div class="col-md-6 col-sm-5 form-group pull-right top_search">
                     <div class="input-group">
@@ -59,7 +62,6 @@
             </div>
         </div>
         <div class="clearfix"></div>
-
         <div class="row" style="display: block;">
             <div class="clearfix"></div>
             <div class="col-md-12">

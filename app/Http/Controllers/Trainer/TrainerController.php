@@ -463,8 +463,8 @@ class TrainerController extends Controller
     
     public function areaofassignmentsub(Request $request)
     {
-        $areaofAssignments = areaofassignmentsub::all();
-        $areaofAssignmentMain = areaofassignment::orderBy('id', 'asc')->get();
+        $areaofAssignments = areaofassignmentsub::orderBy('created_at', 'desc')->get();
+        $areaofAssignmentMain = areaofassignment::orderBy('created_at', 'desc')->get();
     
         return view('Trainers.areaofassignmentsub', compact('areaofAssignmentMain', 'areaofAssignments'));
     }
