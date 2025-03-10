@@ -57,7 +57,6 @@
                     <tr class="headings">
                       <th class="column-title">Profession / Work </th>
                       <th class="column-title">Actions </th>
-           
                     </tr>
                   </thead>
 
@@ -157,8 +156,6 @@
             success: function(response){
               // Show the success alert
               $('#successAlert').show();
-
-
               $('#createNewForm')[0].reset();
 
               // Automatically hide the alert after 5 seconds
@@ -179,7 +176,6 @@
         // Optionally, you can refresh the page or update the table dynamically
       });
     });
-
 
 
     $(document).ready(function() {
@@ -219,7 +215,6 @@
                     console.error(xhr.responseText);
                 }
             });
-
             // Close the modal
             $('#editModal').modal('hide');
         });
@@ -251,5 +246,8 @@
             });
         }
     });
+
+  
     
 </script>
+

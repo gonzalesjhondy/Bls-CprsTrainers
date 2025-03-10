@@ -21,13 +21,13 @@ use App\Http\Controllers\LoginController;
     Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('login', [LoginController::class, 'login']);
 
-
     Route::get('trainer/index', [TrainerController::class, 'index'])->name('trainer.index');
 
     Route::get('/check-blsid', [TrainerController::class, 'checkBlsId'])->name('check.blsid');
 
     Route::get('trainer/aftersubmit', [TrainerController::class, 'aftersubmit'])->name('trainer.aftersubmit');
     Route::get('trainer/list', [TrainerController::class, 'list'])->name('trainer.list');
+    Route::get('trainer/export', [TrainerController::class, 'export'])->name('trainer.export');
 
     Route::get('trainer/agebracket', [TrainerController::class, 'agebracket'])->name('trainer.agebracket');
     Route::post('trainer/saveAgeBracket', [TrainerController::class, 'saveAgeBracket'])->name('trainer.saveAgeBracket');
@@ -44,7 +44,6 @@ use App\Http\Controllers\LoginController;
     Route::post('trainer/updateAreaOfAssignment', [TrainerController::class, 'updateAreaOfAssignment'])->name('trainer.updateAreaOfAssignment');
     Route::delete('trainer/deleteAreaOfAssignment/{id}', [TrainerController::class, 'deleteAreaOfAssignment'])->name('trainer.deleteAreaOfAssignment');
 
-
     Route::get('trainer/areaofassignmentsub', [TrainerController::class, 'areaofassignmentsub'])->name('trainer.areaofassignmentsub');
     Route::post('trainer/areaofassignmentsub', [TrainerController::class, 'saveAreaOfAssignmentSub'])->name('trainer.saveAreaOfAssignmentSub');
     Route::get('trainer/areaofassignmentsub/{id}', [TrainerController::class, 'getSubAssignments'])->name('trainer.getSubAssignments');
@@ -56,7 +55,15 @@ use App\Http\Controllers\LoginController;
     Route::post('trainer/save', [TrainerController::class, 'save'])->name('trainer.save');
     Route::get('trainer/get-blsinfo', [TrainerController::class, 'getBlsInfo'])->name('trainer.getBlsInfo');
     Route::post('trainer/update-blsinfo', [TrainerController::class, 'updateBlsInfo'])->name('trainer.updateBlsInfo');
+    Route::post('trainer/update-status', [TrainerController::class, 'updateStatus'])->name('trainer.updateStatus');
+    Route::post('trainer/update-statusActive', [TrainerController::class, 'updateStatusActive'])->name('trainer.updateStatusActive');
+    Route::post('trainer/update-statusDeActivated', [TrainerController::class, 'updateStatusDeActivated'])->name('trainer.updateStatusDeActivated');
     Route::delete('trainer/deleteblsInfo/{id}', [TrainerController::class, 'deleteblsInfo'])->name('trainer.deleteblsInfo');
+
+
+
+
+
     
 
 

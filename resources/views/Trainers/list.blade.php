@@ -7,6 +7,8 @@
 <!-- Add DataTables CSS -->
 <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 
+
+
 <style>
     /* Ensure the table header remains sticky */
     .thead-sticky {
@@ -19,8 +21,8 @@
     /* Make the first two columns sticky */
     #blsTable th:first-child,
     #blsTable td:first-child,
-    #blsTable th:nth-child(2),
-    #blsTable td:nth-child(2) {
+    #blsTable th:nth-child(1),
+    #blsTable td:nth-child(1) {
         position: sticky;
         left: 0;
         z-index: 9; 
@@ -55,7 +57,7 @@
                     <div class="input-group">
                         <input type="text" class="form-control" id="searchInput" placeholder="Search...">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">Search!</button>
+                            <button class="btn btn-default" type="button">Search</button>
                         </span>
                     </div>
                 </div>
@@ -71,23 +73,29 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <br />
+                        <div class="mb-2">
+                          <a href="{{ route('trainer.export') }}" class="btn btn-success">
+                              <i class="fa fa-download"></i> Export Data
+                          </a>
+                      </div>
                         <div class="table-responsive">
                             <table id="blsTable" class="table table-striped">
                                 <thead>
                                     <tr class="headings">
-                                        <th class="column-title">BLS ID No.</th>
+                                        <th class="column-title text-nowrap">BLS ID No.</th>
                                         <th class="column-title">EMAIL</th>
                                         <th class="column-title text-nowrap">LAST NAME</th>
                                         <th class="column-title text-nowrap">FIRST NAME</th>
                                         <th class="column-title text-nowrap">MIDDLE NAME</th>
                                         <th class="column-title">SUFFIX</th>
+                                        <th class="column-title text-nowrap">STATUS</th>
                                         <th class="column-title">GENDER</th>
                                         <th class="column-title text-nowrap">CONTACT NO.</th>
                                         <th class="column-title text-nowrap">AREA OF ASSIGNMENT (MAIN)</th>
                                         <th class="column-title text-nowrap">AREA OF ASSIGNMENT (SUB)</th>
                                         <th class="column-title text-nowrap">AGE BRACKET</th>
                                         <th class="column-title text-nowrap">PROF WORK</th>
+                                        <th class="column-title text-nowrap">PROF WORK (Others)</th>
                                         <th class="column-title text-nowrap">TRAINING DATE</th>
                                         <th class="column-title text-nowrap">TRAINING PLACE</th>
                                         <th class="column-title text-nowrap">AGENCY CONDUCTED</th>
@@ -115,7 +123,7 @@
                                         </th>
                                         <th class="bulk-actions" colspan="7">
                                             <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions (
-                                                <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                                              <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
                                         </th>
                                     </tr>
                                 </thead>
@@ -128,12 +136,16 @@
                                         <td>{{ $blsinfo->Firstname }}</td>
                                         <td>{{ $blsinfo->Middlename }}</td>
                                         <td>{{ $blsinfo->Suffix }}</td>
+                                        <td class="{{ $blsinfo->Status == 'Active' ? 'text-success font-weight-bold' : ($blsinfo->Status == 'InActive' ? 'text-danger font-weight-bold' : '') }}">
+                                              {{ $blsinfo->Status }}
+                                        </td>
                                         <td>{{ $blsinfo->Gender }}</td>
                                         <td>{{ $blsinfo->ContactNum }}</td>
                                         <td>{{ $blsinfo->AreaOfAssignment }}</td>
                                         <td>{{ $blsinfo->AreaOfAssignmentSub }}</td>
                                         <td>{{ $blsinfo->AgeBracketDesc }}</td>
                                         <td>{{ $blsinfo->ProfWorkDesc }}</td>
+                                        <td>{{ $blsinfo->ProfWorkOthers }}</td>
                                         <td>{{ $blsinfo->TrainingDate }}</td>
                                         <td>{{ $blsinfo->TrainingPlace }}</td>
                                         <td>{{ $blsinfo->AgencyConducted }}</td>
@@ -157,15 +169,21 @@
                                         <td>{{ $blsinfo->TrnFrom6 }}</td>
                                         <td>{{ $blsinfo->TrnTo6 }}</td>
                                         <td>{{ $blsinfo->TrnFtOthers6 }}</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
-                                            <!-- <button class="btn btn-sm btn-danger btn-delete" data-id="{{ $blsinfo->id }}"><i class="fa fa-trash"></i></button> -->
-                                        </td>
+                                        <td class="d-flex gap-1">
+                                              <button class="btn btn-sm btn-info" title="EDIT"><i class="fa fa-edit"></i></button>
+                                              <button class="btn btn-sm btn-danger" title="INACTIVE"><i class="fa fa-remove"></i></button>
+                                              <button class="btn btn-sm btn-success btn-active" title="ACTIVE"><i class="fa fa-check"></i></button>
+                                              <button class="btn btn-sm btn-warning btn-DeActivated" title="DEACTIVATE">
+                                                <i class="fa fa-eye-slash" style="color: white;"></i>
+                                              </button>
+                                              <!-- <button class="btn btn-sm btn-danger btn-delete" data-id="{{ $blsinfo->id }}"><i class="fa fa-trash"></i></button> -->
+                                          </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
                             </table>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -258,8 +276,8 @@
                                   <option value="Female">FEMALE</option>
                                 </select>
                               </div>
-                              <div class="col-md-3 mb-3 form-group">
-                                <label for="ProfWorkDesc">PROFESSION/WORK/DESIGNATION:</label>
+                              <div class="col-md-2 mb-3 form-group">
+                                <label for="ProfWorkDesc">PROFESSION/WORK:</label>
                                 <select class="form-control" name="ProfWorkDesc" id="ProfWorkDesc">
                                   <option value="">Choose option</option>
                                   @foreach($profWorks as $profWork)
@@ -267,9 +285,13 @@
                                   @endforeach
                                 </select>
                               </div>
-                              <div class="col-md-3 mb-3 form-group">
-                                <label for="ContactNum">REGISTERED CONTACT NO.:</label>
+                              <div class="col-md-2 mb-3 form-group">
+                                <label for="ContactNum">REGISTERED CONTACT #:</label>
                                 <input type="text" class="form-control" name="ContactNum" id="ContactNum">
+                              </div>
+                              <div class="col-md-2 mb-3 form-group">
+                                <label for="ProfWorkOthers">PROF/WORK (Others):</label>
+                                <input type="text" class="form-control" name="ProfWorkOthers" id="ProfWorkOthers">
                               </div>
                               <div class="col-md-3 mb-3 form-group">
                                   <label for="TrainingDate">Date/Month/Year of Training</label>
@@ -291,14 +313,15 @@
                                 <label for="AgencyConductedOthers">IF OTHERS PLEASE SPECIFIY N/A:</label>
                                 <input type="text" class="form-control" name="AgencyConductedOthers" id="AgencyConductedOthers">
                               </div>
-                              <div class="col-md-3 mb-3 form-group">
+                              <!-- <div class="col-md-3 mb-3 form-group">
                                 <label for="BlsTotId">BLS TOT ID NUMBER <br> (FOR BLS FACILITATORS TRAINED PRIOR TO 2021):</label>
                                 <input type="text" class="form-control" name="BlsTotId" id="BlsTotId">
-                              </div>
+                              </div> -->
                               <div class="col-md-3 mb-3 form-group mt-3" >
-                                <label for="NotApplicable">ANSWER N/A <br> (IF NOT APPLICABLE):</label>
+                                <label for="NotApplicable">ANSWER N/A (BLS TOT ID IF N/A):</label>
                                 <input type="text" class="form-control" name="NotApplicable" id="NotApplicable">
                               </div>
+                              
                             </div>
                         </div>
                         <input type="text" name="ConductedSixTraining" value="YES" hidden/>     
@@ -377,7 +400,7 @@
                           <label for=""><b>(6)</b> &nbsp; FROM: </label>
                             <input type="date" class="form-control" name="TrnFrom6" id="TrnFrom6">
                           </div>
-                          <div class="col-md-3" style="margin-top: 16px;">
+                          <div class="col-md-3" style="margin-top: 16px;"> 
                             <label for="">TO:</label>
                             <input type="date" class="form-control" name="TrnTo6" id="TrnTo6">
                           </div>
@@ -386,7 +409,6 @@
                             <input type="text" class="form-control mt-2" name="TrnFtOthers6" id="TrnFtOthers6" >
                           </div>
                       </div>
-                      
                 </div>                     
             </div>
         </div>
@@ -405,17 +427,61 @@
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
 
+
 <script>
-  $(document).ready(function () {
-    $('#blsTable').DataTable({
+
+$(document).ready(function () {
+    // Initialize DataTable
+    let blsTable = $('#blsTable').DataTable({
         "lengthMenu": [[15, 25, 50, -1], [15, 25, 50, "All"]],
         "pageLength": 15,
-        "dom": 'lrtip'  // This 
+        "dom": 'rtip'
     });
 
+    // Update export button URL with search parameters
+    function updateExportUrl() {
+        let searchTerm = $('#searchInput').val();
+        let baseUrl = "{{ route('trainer.export') }}";
+        
+        // Update export button href with search parameter
+        $('.btn-success').attr('href', `${baseUrl}?search=${encodeURIComponent(searchTerm)}`);
+    }
+
+    // Search input handler
     $('#searchInput').on('keyup', function () {
-        $('#blsTable').DataTable().search($(this).val()).draw();
+        let searchVal = $(this).val().trim();
+        let table = $('#blsTable').DataTable();
+        
+        // Clear any previous filters
+        table.search('').columns().search('');
+        
+        // Check if searching for Active/InActive specifically
+        if (searchVal.toLowerCase() === 'active' || searchVal.toLowerCase() === 'inactive') {
+            // Find status column index
+            let statusColIndex = $('#blsTable thead th').filter(function() {
+                return $(this).text().toLowerCase() === 'status';
+            }).index();
+            
+            if (statusColIndex > -1) {
+                // Apply exact match on status column
+                table.column(statusColIndex).search('^' + searchVal + '$', true, false);
+            } else {
+                // If status column not found, use global search
+                table.search(searchVal);
+            }
+        } else {
+            // For other search terms, use global search
+            table.search(searchVal);
+        }
+        
+        table.draw();
+        updateExportUrl();
     });
+
+    // Update export URL when page loads
+    updateExportUrl();
+
+
 
     $('.btn-info').on('click', function () {
         var blsId = $(this).closest('tr').find('td:eq(0)').text();
@@ -448,7 +514,7 @@
                     $('#TrnFtOthers2').val(response.TrnFtOthers2);
 
                     $('#TrnFrom3').val(response.TrnFrom3);
-                    $('#TrnTo3').val(response.TrnTo3);
+                    $('#TrnTo3').val(response.TrnTo3); 
                     $('#TrnFtOthers3').val(response.TrnFtOthers3);
 
                     $('#TrnFrom4').val(response.TrnFrom4);
@@ -463,7 +529,6 @@
                     $('#TrnTo6').val(response.TrnTo6);
                     $('#TrnFtOthers6').val(response.TrnFtOthers6);
 
-                    // Show the modal
                     $('#editModal').modal('show');
                 }
             },
@@ -473,30 +538,139 @@
         });
     });
 
-    $('#updateBlsInfoForm').submit(function(event) {
-        event.preventDefault();
+    $('.btn-danger').on('click', function () {
+    var blsId = $(this).closest('tr').find('td:eq(0)').text();  // Get the BlsId
+    var button = $(this); // Store reference to the button
 
+    // SET STATUS TO INACTIVE
+    if (confirm('Are you sure you want to set this status to "InActive"?')) {
         $.ajax({
-            url: '{{ route("trainer.updateBlsInfo") }}',
+            url: '{{ route("trainer.updateStatus") }}',
             method: 'POST',
-            data: $(this).serialize(),
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            data: {
+                _token: '{{ csrf_token() }}',
+                BlsId: blsId,
+                status: 'InActive'
             },
             success: function(response) {
-                console.log('Bls info updated successfully:', response.message);
-                alert('Data updated successfully!');
-                $('#editModal').modal('hide');
-                location.reload();
+                if (response.success) { 
+                    alert('Status updated to "InActive".');
+                    // Reload the page after clicking OK on the success alert
+                    window.location.reload();
+                } else {
+                    alert('Failed to update status.');
+                    window.location.reload(); // Reload even on failure if desired
+                }
             },
             error: function(xhr, status, error) {
-                console.error('Error updating Bls info:', xhr.responseText);
-                alert('Error updating Bls info: ' + xhr.responseText);
+                console.error('Error updating status:', error);
+                alert('An error occurred while updating the status.');
+                window.location.reload(); // Reload on error if desired
             }
         });
-    });
+    } else {
+        // Reload page if user clicks Cancel on the confirm dialog
+        window.location.reload();
+    }
 });
 
+//SET STATUS TO ACTIVE
+$('.btn-active').on('click', function () {
+    var blsId = $(this).closest('tr').find('td:eq(0)').text();  // Get the BlsId
+    var button = $(this); // Store reference to the button
+
+    // Confirm before proceeding
+    if (confirm('Are you sure you want to set this status to "Active"?')) {
+        $.ajax({
+            url: '{{ route("trainer.updateStatusActive") }}',
+            method: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                BlsId: blsId,
+                status: 'Active'
+            },
+            success: function(response) {
+                if (response.success) {
+                    alert('Status updated to "Active".');
+                    // Reload the page after clicking OK on the success alert
+                    window.location.reload();
+                } else {
+                    alert('Failed to update status.');
+                    window.location.reload(); // Reload even on failure if desired
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error updating status:', error);
+                alert('An error occurred while updating the status.');
+                window.location.reload(); // Reload on error if desired
+            }
+        });
+    } else {
+        // Reload page if user clicks Cancel on the confirm dialog
+        window.location.reload();
+    }
+});
+
+$('.btn-DeActivated').on('click', function () {
+    var blsId = $(this).closest('tr').find('td:eq(0)').text();  // Get the BlsId
+    var button = $(this); // Store reference to the button
+
+    // Confirm before proceeding
+    if (confirm('Are you sure you want to set this status to "DeActivated"?')) {
+        $.ajax({
+            url: '{{ route("trainer.updateStatusDeActivated") }}',
+            method: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                BlsId: blsId,
+                status: 'DeActivated'
+            },
+            success: function(response) {
+                if (response.success) {
+                    alert('Status updated to "DeActivated".');
+                    // Reload the page after clicking OK on the success alert
+                    window.location.reload();
+                } else {
+                    alert('Failed to update status.');
+                    window.location.reload(); // Reload even on failure if desired
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error updating status:', error);
+                alert('An error occurred while updating the status.');
+                window.location.reload(); // Reload on error if desired
+            }
+        });
+    } else {
+        // Reload page if user clicks Cancel on the confirm dialog
+        window.location.reload();
+    }
+});
+
+
+      $('#updateBlsInfoForm').submit(function(event) {
+          event.preventDefault();
+
+          $.ajax({
+              url: '{{ route("trainer.updateBlsInfo") }}',
+              method: 'POST',
+              data: $(this).serialize(),
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              },
+              success: function(response) {
+                  console.log('Bls info updated successfully:', response.message);
+                // alert('Data updated successfully!');
+                  $('#editModal').modal('hide');
+                  location.reload();
+              },
+              error: function(xhr, status, error) {
+                  console.error('Error updating Bls info:', xhr.responseText);
+                  alert('Error updating Bls info: ' + xhr.responseText);
+              }
+          });
+      });
+  });
 
     $('.btn-delete').on('click', function() {
             var blsinfoId = $(this).data('id');
@@ -521,7 +695,6 @@
 
 
     $(document).ready(function() {
-
 
     $('#areaofAssignment').on('change', function() {
         const assignmentMain = $(this).val();

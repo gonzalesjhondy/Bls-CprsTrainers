@@ -23,6 +23,7 @@ class blsinfo extends Model
         'AreaOfAssignmentSub',
         'AgeBracketDesc',
         'ProfWorkDesc',
+        'ProfWorkOthers',
         'TrainingDate',
         'TrainingPlace',
         'AgencyConducted',
@@ -46,6 +47,7 @@ class blsinfo extends Model
         'TrnFrom6',
         'TrnTo6',
         'TrnFtOthers6',
+        'Status'
     ];
 
 

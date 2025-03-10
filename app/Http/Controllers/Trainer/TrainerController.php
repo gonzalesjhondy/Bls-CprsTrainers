@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Trainer;
 
-
+use App\Events\BlsInfoUpdated;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\agebracket;
@@ -10,8 +10,10 @@ use App\Models\profwork;
 use App\Models\areaofassignment;
 use App\Models\areaofassignmentsub;
 use App\Models\blsinfo;
-
-use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\BlsInfoExport;
+use Psy\Command\WhereamiCommand;
+use App\Events\ProfWorkEvent;
 
 class TrainerController extends Controller
 {
@@ -32,7 +34,6 @@ class TrainerController extends Controller
         $profWorks = profwork::all();
         $areaofAssignments = areaofassignment::all();
         $areaofAssignmentSub = areaofassignmentsub::all();
-
         return view('Trainers.aftersubmit', compact('ageBrackets','profWorks', 'areaofAssignments','areaofAssignmentSub'));
     }
 
@@ -55,8 +56,6 @@ class TrainerController extends Controller
     public function save(Request $request)
     {
 
-        // dd($request->all());
-        
         $request->validate([
             'BlsId' => 'nullable|string|max:255',
             'Email' => 'nullable|email',
@@ -93,27 +92,46 @@ class TrainerController extends Controller
             'TrnFrom6' => 'nullable|date',
             'TrnTo6' => 'nullable|date',
             'TrnFtOthers6' => 'nullable|string|max:255',
+            'Status' => 'nullable|string|max:255',
+            'ProfWorkOthers' => 'nullable|string|max:255',
         ]);
+
 
         if (!function_exists('generateBlsId')) {
             function generateBlsId() {
-
-                $currentDate = date('mdY');
-            
-                $lastBlsInfo = \App\Models\blsinfo::orderBy('BlsId', 'desc')->first();
+                // Get current year's last two digits
+                $currentYear = date('y', strtotime('now'));
+                
+                // Get the last BLS info record that matches the auto-generated format
+                $lastBlsInfo = \App\Models\blsinfo::where('BlsId', 'LIKE', "BLST-{$currentYear}-CVCHD-%")
+                                                 ->orderBy('created_at', 'desc')
+                                                 ->orderBy('BlsId', 'desc')
+                                                 ->first();
                 
                 if ($lastBlsInfo) {
-                    $lastIdNumber = (int)substr($lastBlsInfo->BlsId, 8, 5); 
-                    $newIdNumber = str_pad($lastIdNumber + 1, 5, '0', STR_PAD_LEFT);
+                    // Extract the number part from the auto-generated ID
+                    $lastNumber = (int)substr($lastBlsInfo->BlsId, -3);
+                    $newNumber = str_pad($lastNumber + 1, 3, '0', STR_PAD_LEFT);
                 } else {
-                    $newIdNumber = '00001';
+                    // If no auto-generated IDs exist for this year, start with 001
+                    $newNumber = '001';
                 }
-                return $currentDate . $newIdNumber;
+                
+                // Construct the new ID in the format BLST-25-CVCHD-001
+                return "BLST-{$currentYear}-CVCHD-{$newNumber}";
             }
         }
         
         $blsinfo = new blsinfo();
-        $blsinfo->BlsId = generateBlsId();
+        
+        if ($request->filled('BlsId')) {
+            // Use the user-provided BlsId
+            $blsinfo->BlsId = $request->input('BlsId');
+        } else {
+            // Generate a new BlsId if user didn't provide one
+            $blsinfo->BlsId = generateBlsId();         
+        }
+
         $blsinfo->Email = $request->input('Email');
         $blsinfo->Lastname = $request->input('Lastname');
         $blsinfo->Firstname = $request->input('Firstname');
@@ -149,11 +167,16 @@ class TrainerController extends Controller
         $blsinfo->TrnTo6 = $request->input('TrnTo6', null); 
         $blsinfo->TrnFtOthers6 = $request->input('TrnFtOthers6', null);
 
+        $blsinfo->Status = 'Active';
+        $blsinfo->ProfWorkOthers = $request->input('ProfWorkOthers','');
+
         $blsinfo->created_at = now()->setTimezone('Asia/Manila');
         $blsinfo->updated_at = null;
     
         $blsinfo->save();
 
+        event(new BlsInfoUpdated($blsinfo));
+        
         return redirect()->route('trainer.aftersubmit')->with('success', 'Trainer information saved successfully!');
     }
     
@@ -196,6 +219,125 @@ class TrainerController extends Controller
         }
     }
 
+    //SET THE STATUS TO INACTIVE
+    public function updateStatus(Request $request)
+    {
+
+        try {
+            // Validate input
+            $user = session('user');
+            $request->validate([
+                'BlsId' => 'required',
+                'status' => 'required|in:Active,InActive'
+            ]);
+    
+            // Find the record by BlsId
+            $blsInfo = BlsInfo::where('BlsId', $request->BlsId)->first();
+            
+            if (!$blsInfo) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Record not found'
+                ], 404);
+            }
+    
+            // Update the status
+            $blsInfo->Status = $request->status;  // Note: Status with capital S based on your table structure
+            $blsInfo->save();
+    
+            return response()->json([
+                'success' => true,
+                'message' => 'Status updated successfully'
+            ]);
+    
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error updating status: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    //SET THE STATUS TO ACTIVE
+    public function updateStatusActive(Request $request)
+    {
+
+        try {
+            // Validate input
+            $user = session('user');
+            $request->validate([
+                'BlsId' => 'required',
+                'status' => 'required|in:Active,InActive'
+            ]);
+    
+            // Find the record by BlsId
+            $blsInfo = BlsInfo::where('BlsId', $request->BlsId)->first();
+            
+            
+            if (!$blsInfo) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Record not found'
+                ], 404);
+            }
+    
+            // Update the status
+            $blsInfo->Status = $request->status;  // Note: Status with capital S based on your table structure
+            $blsInfo->save();
+    
+            return response()->json([
+                'success' => true,
+                'message' => 'Status updated successfully'
+            ]);
+    
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error updating status: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    //SET THE STATUS TO DEACTIVATED
+    public function updateStatusDeActivated(Request $request)
+    {
+
+        try {
+            // Validate input
+            $user = session('user');
+            $request->validate([
+                'BlsId' => 'required',
+                'status' => 'required|in:Active,InActive,DeActivated'
+            ]);
+    
+            // Find the record by BlsId
+            $blsInfo = BlsInfo::where('BlsId', $request->BlsId)->first();
+            
+            if (!$blsInfo) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Record not found'
+                ], 404);
+            }
+    
+            // Update the status
+            $blsInfo->Status = $request->status;  // Note: Status with capital S based on your table structure
+            $blsInfo->save();
+    
+            return response()->json([
+                'success' => true,
+                'message' => 'Status updated successfully'
+            ]);
+    
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error updating status: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+    
+    
     public function updateBlsInfo(Request $request) {
         $request->validate([
             'BlsId' => 'nullable|string|max:255',
@@ -233,10 +375,12 @@ class TrainerController extends Controller
             'TrnFrom6' => 'nullable|date',
             'TrnTo6' => 'nullable|date',
             'TrnFtOthers6' => 'nullable|string|max:255',
+            'ProfWorkOthers' => 'nullable|string|max:255',
         ]);
     
         // Find the blsinfo record by ID
         $blsInfo = blsinfo::find($request->id);
+    
     
         // Check if $blsInfo exists
         if (!$blsInfo) {
@@ -278,6 +422,7 @@ class TrainerController extends Controller
         $blsInfo->TrnFrom6 = $request->input('TrnFrom6', null); 
         $blsInfo->TrnTo6 = $request->input('TrnTo6', null); 
         $blsInfo->TrnFtOthers6 = $request->input('TrnFtOthers6', null);
+        $blsInfo->ProfWorkOthers = $request->input('ProfWorkOthers', '');
         $blsInfo->updated_at = now()->setTimezone('Asia/Manila');
         
         $blsInfo->save();
@@ -286,19 +431,30 @@ class TrainerController extends Controller
         
     }
     
-    
-    public function list (Request $request){
-        
+    public function list(Request $request)
+    {
         $user = session('user');
-        $blsinfos = blsinfo::all();
+    
+        // Retrieve only blsinfo records with Status 'Active' or 'Inactive'
+        $blsinfos = blsinfo::whereIn('Status', ['Active', 'InActive'])->get();
+        
+        // Retrieve other related data
         $ageBrackets = agebracket::all();
         $profWorks = profwork::all();
         $areaofAssignments = areaofassignment::all();
         $areaofAssignmentSub = areaofassignmentsub::all();
     
-        return view('Trainers.list', compact('blsinfos','ageBrackets','profWorks','areaofAssignments','areaofAssignmentSub'));
+        return view('Trainers.list', compact('blsinfos', 'ageBrackets', 'profWorks', 'areaofAssignments', 'areaofAssignmentSub'));
     }
 
+
+    public function export(Request $request) 
+    {
+        $user = session('user');
+        $searchTerm = $request->query('search');
+        
+        return Excel::download(new BlsInfoExport($searchTerm), 'BLS-CPR Trainer Information.xlsx');
+    }
 
     public function deleteblsInfo($id) {
         $blsinfo = blsinfo::find($id);
@@ -372,16 +528,23 @@ class TrainerController extends Controller
             'ProfWorkDesc' => 'required|string|max:255',
         ]);
     
-        $profWork = new profwork();
+        $profWork = new ProfWork();
         $profWork->ProfWorkDesc = $request->input('ProfWorkDesc'); 
-        
         $profWork->created_at = now()->setTimezone('Asia/Manila');
         $profWork->updated_at = null;
     
         $profWork->save();
     
-        return response()->json(['message' => 'Prof Work saved successfully'], 200);
+        // Broadcast the create event
+        broadcast(new ProfWorkEvent('create', $profWork))->toOthers();
+    
+        return response()->json([
+            'message' => 'Prof Work saved successfully', 
+            'profWork' => $profWork
+        ], 200);
     }
+
+
 
     public function updateProfWork(Request $request) {
         $request->validate([
@@ -527,7 +690,6 @@ class TrainerController extends Controller
     }
 
 
-    
     public function deleteAreaOfAssignmentSub($id) {
         $areaOfAssignmentSub = areaofassignmentsub::find($id);
     

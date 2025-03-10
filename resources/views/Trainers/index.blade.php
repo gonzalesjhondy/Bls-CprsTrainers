@@ -12,9 +12,9 @@
               <div class="title_left">
                 <h3>BLS-CPR Trainer <small>(Department Of Health - CVCHD)</small></h3>
               </div>
-              <div class="title_right">
+              <!-- <div class="title_right">
                 <div class="col-md-5 col-sm-5 form-group pull-right top_search">
-                  <label for="blsIdInput"> Please enter your BLS TOT ID # correctly and click "Search".</label>
+                  <label for="blsIdInput"> Please enter BLS TOT ID # correctly and click "Search".</label>
                   <div class="input-group">
                     <input type="text" class="form-control" name="BlsId" id="blsIdInput">
                     <span class="input-group-btn">
@@ -22,18 +22,15 @@
                     </span>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
             <div class="clearfix"></div>
             <div class="row" style="display: block;">
-            <div class="clearfix"></div>
+            <div class="clearfix mb-3"></div>
           <div class="col-md-12 ">
             <div class="col-md-6">
               <div class="x_panel">
-                  <div class="x_title">
-                    <h2>Create New </h2>
-                    <div class="clearfix"></div>
-                  </div>
+              
                   <div class="x_content">
                     <br />
                   <form method="POST" action="{{ route('trainer.save') }}" >
@@ -45,7 +42,7 @@
                       <div class="col-md-6 col-sm-6 form-group has-feedback">
                           <label for="areaofAssignment">AREA OF ASSIGNMENT:</label>
                           <select class="form-control" id="areaofAssignment" name="AreaOfAssignment" required>
-                              <option value="">Choose option</option>
+                              <option value="" disabled selected>Choose option</option>
                               @foreach($areaofAssignments as $areaofAssignment)
                               <option value="{{ $areaofAssignment->AreaAssignmentMain }}">{{ $areaofAssignment->AreaAssignmentMain }}</option>
                               @endforeach
@@ -54,7 +51,7 @@
                       <div class="col-md-6 mt-2 mb-3">
                           <label for="areaAssignmentSub">Sub Assignment:</label>
                             <select class="form-control" id="areaAssignmentSub" name="AreaOfAssignmentSub" required>
-                                <option value="">Choose option</option>
+                                <option value="" disabled selected>Choose option</option>
                                 @foreach($areaofAssignmentSub as $assignment)
                                 <option value="{{ $assignment->id }}">{{ $assignment->AreaAssignmentSub }}</option>
                                 @endforeach
@@ -80,7 +77,7 @@
                       <div class="col-md-6 mb-3">
                         <label for="">SUFFIX:</label>
                            <select class="form-control" name="Suffix">
-                              <option>Choose option</option>
+                              <option disabled selected>Choose option</option>
                               <option>JR.</option>
                               <option>SR.</option>
                               <option>II</option>
@@ -92,7 +89,7 @@
                       <div class="col-md-6">
                         <label for="">AGE BRACKET:</label>
                           <select class="form-control" name="AgeBracketDesc">
-                              <option value="">Choose option</option>
+                              <option value="" disabled selected>Choose option</option>
                               @foreach($ageBrackets as $ageBracket)
                               <option value="{{ $ageBracket->AgeBracketDesc }}">{{ $ageBracket->AgeBracketDesc }}</option>
                               @endforeach
@@ -101,7 +98,7 @@
                       <div class="col-md-6 mb-3">
                         <label for="">GENDER:</label>
                           <select class="form-control" name="Gender">
-                              <option>Choose option</option>
+                              <option disabled selected>Choose option</option>
                               <option value="Male">MALE</option>
                               <option value="Female">FEMALE</option>
                           </select>
@@ -109,16 +106,22 @@
                       <div class="col-md-6">
                         <label for="">PROFESSION/NATURE OF WORK/DESIGNATION:</label>
                         <select class="form-control" name="ProfWorkDesc">
-                            <option value="">Choose option</option>
+                            <option value="" disabled selected>Choose option</option>
                             @foreach($profWorks as $profWork)
                             <option value="{{ $profWork->ProfWorkDesc }}">{{ $profWork->ProfWorkDesc }}</option>
                             @endforeach
                         </select>
                       </div>
-                      <div class="col-md-6 mb-3">
-                        <label for="">REGISTERED CONTACT NO.:</label>
-                        <input type="text" class="form-control" name="ContactNum">                     
-                      </div>
+                      <div class="row">
+                          <div class="col-md-6 mb-3 form-group">
+                            <label for="ProfWorkOthers">Others (Please specify)</label>
+                            <input type="text" class="form-control" name="ProfWorkOthers" id="ProfWorkOthers">
+                          </div>
+                          <div class="col-md-6 mb-3 form-group">
+                            <label for="ContactNum">REGISTERED CONTACT #:</label>
+                            <input type="text" class="form-control" name="ContactNum" id="ContactNum">
+                          </div>
+                        </div>
                   </div>
                 </div>
               </div>
@@ -145,18 +148,18 @@
                         <div class="col-md-6">
                           <label for="">AGENCY WHICH CONDUCTED:</label>
                             <select class="form-control" name="AgencyConducted">
-                                  <option>Choose option</option>
+                                  <option disabled selected>Choose option</option>
                                   <option>HEMB</option>
                                   <option>DOH CVCHD</option>
                             </select>
                         </div>
                         <div class="col-md-6 mb-3">
                           <label for="">IF OTHERS PLEASE SPECIFIY N/A:</label>
-                          <input type="text" class="form-control">
+                          <input type="text"  name="AgencyConductedOthers" class="form-control">
                         </div>
                        <div class="col-md-6 mb-3 ">
                           <label for="">BLS TOT ID NUMBER <br> (FOR BLS FACILITATORS TRAINED PRIOR TO 2021):</label>
-                          <input type="text" class="form-control" id="" placeholder="">
+                          <input type="text" class="form-control" id="BlsId" name="BlsId">
                         </div>
                         <div class="col-md-6 mb-4 ">
                           <label for="">ANSWER N/A <br> (IF NOT APPLICABLE):</label>
@@ -179,7 +182,7 @@
                       <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                           <div class="modal-header">
-                            <h5 class="modal-title" id="yesModalLabel">BLS-CPR TRAINING CODUCTED STARTING 2021</h5>
+                            <h5 class="modal-title" id="yesModalLabel">BLS-CPR TRAINING CONDUCTED STARTING 2021</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                               <span aria-hidden="true">&times;</span>
                             </button>
@@ -404,7 +407,7 @@
       <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="scanModalLabel">For existing data: Please check and review the details before clicking Submit!</h5>
+            <h5 class="modal-title" id="scanModalLabel">For existing data: Please check and review the details before clicking Update!</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -425,7 +428,7 @@
                               <div class="col-md-3 col-sm-3 mb-3 form-group">
                                 <label for="areaofAssignment">AREA OF ASSIGNMENT:</label>
                                 <select class="form-control" id="areaofAssignmentMain" name="AreaOfAssignment">
-                                  <option value="">Choose option</option>
+                                  <option value="" >Choose option</option>
                                   @foreach($areaofAssignments as $areaofAssignment)
                                   <option value="{{ $areaofAssignment->AreaAssignmentMain }}">{{ $areaofAssignment->AreaAssignmentMain }}</option>
                                   @endforeach
@@ -479,7 +482,7 @@
                               <div class="col-md-3 mb-3 form-group">
                                 <label for="Gender">GENDER:</label>
                                 <select class="form-control" name="Gender" id="Gender">
-                                  <option>Choose option</option>
+                                  <option disabled selected>Choose option</option>
                                   <option value="Male">MALE</option>
                                   <option value="Female">FEMALE</option>
                                 </select>
@@ -493,9 +496,15 @@
                                   @endforeach
                                 </select>
                               </div>
-                              <div class="col-md-3 mb-3 form-group">
-                                <label for="ContactNum">REGISTERED CONTACT NO.:</label>
-                                <input type="text" class="form-control" name="ContactNum" id="ContactNum">
+                              <div class="row">
+                                <div class="col-md-6 mb-3 form-group">
+                                  <label for="ProfWorkOthers">Others (Please specify)</label>
+                                  <input type="text" class="form-control" name="ProfWorkOthers" id="ProfWorkOthers">
+                                </div>
+                                <div class="col-md-6 mb-3 form-group">
+                                  <label for="ContactNum">REGISTERED CONTACT #:</label>
+                                  <input type="text" class="form-control" name="ContactNum" id="ContactNum">
+                                </div>
                               </div>
                               <div class="col-md-3 mb-3 form-group">
                                   <label for="TrainingDate">Date/Month/Year of Training</label>
@@ -716,6 +725,7 @@ $(document).ready(function() {
                 error: function(xhr, status, error) {
                     console.error('Error fetching sub assignments: ', status, error);
                     console.log('Response:', xhr.responseText);
+                   
                 }
             });
         }
@@ -844,6 +854,7 @@ $(document).ready(function() {
                         var fieldName = $(this).attr('name');
                         if (fieldName && response[fieldName] !== undefined) {
                             $(this).val(response[fieldName]);
+ 
                         }
                     });
 
@@ -857,26 +868,28 @@ $(document).ready(function() {
     });
 
     // Function to update Bls info on form submission
-    $('#updateBlsInfoForm').submit(function(event) {
-        event.preventDefault();
+      $('#updateBlsInfoForm').submit(function(event) {
+      event.preventDefault();
 
-        $.ajax({
-            url: '{{ route("trainer.updateBlsInfo") }}',
-            method: 'POST',
-            data: $(this).serialize(),
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function(response) {
-                console.log('Bls info updated successfully:', response.message);
-                $('#scanModal').modal('hide');
-            },
-            error: function(xhr, status, error) {
-                console.error('Error updating Bls info:', xhr.responseText);
-                alert('Error updating Bls info: ' + xhr.responseText);
-            }
-        });
-    });
+      $.ajax({
+          url: '{{ route("trainer.updateBlsInfo") }}',
+          method: 'POST',
+          data: $(this).serialize(),
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          success: function(response) {
+              console.log('Bls info updated successfully:', response.message);
+              $('#scanModal').modal('hide');
+              window.location.href = '{{ route("trainer.aftersubmit") }}'; // Redirect after success
+          },
+          error: function(xhr, status, error) {
+              console.error('Error updating Bls info:', xhr.responseText);
+              alert('Error updating Bls info: ' + xhr.responseText);
+          }
+      });
+  });
+
 });
 
 </script>          

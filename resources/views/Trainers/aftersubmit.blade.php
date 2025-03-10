@@ -43,8 +43,4 @@
 
 
 
-
-
-
-
 @include('includes/footer')

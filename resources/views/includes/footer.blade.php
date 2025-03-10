@@ -1,8 +1,9 @@
   <!-- footer content -->
   <footer>
-          <div class="pull-right">
-           Department Of Health CV-CHD 2024
-          </div>
+      <div class="text-center d-block">
+      &copy; Department Of Health (CV-CHD) 2024
+    </div>
+
           <div class="clearfix"></div>
 
         </footer>
@@ -50,9 +51,12 @@
     <!-- Custom Theme Scripts -->
     <script src="{{ asset('./js/custom.min.js') }}"></script>
 
-
+    <script src="{{ asset('./js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('./js/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('./js/dataTables.jquery.dataTables.min.js') }}"></script>
+
+
+    <!-- <script src="{{ asset('./js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('./js/dataTables.jquery.dataTables.min.js') }}"></script> -->
 
 	
   </body>
